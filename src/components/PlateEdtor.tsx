@@ -5,6 +5,7 @@ import {
   RenderAfterEditable,
   PlateLeaf,
   Value,
+  useEditorReadOnly,
 } from '@udecode/plate-common'
 import {
   createParagraphPlugin,
@@ -140,7 +141,7 @@ import { FloatingToolbarButtons } from '@/components/plate-ui/floating-toolbar-b
 import { withPlaceholders } from '@/components/plate-ui/placeholder'
 import { withDraggables } from '@/components/plate-ui/with-draggables'
 import { TooltipProvider } from '@/components/plate-ui/tooltip'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Button } from '@/components/ui/button'
 
 const plugins = createPlugins(
@@ -280,9 +281,7 @@ const plugins = createPlugins(
           {
             hotkey: 'enter',
             query: {
-              allow: [
-                // ELEMENT_CODE_BLOCK, ELEMENT_BLOCKQUOTE, ELEMENT_TD
-              ],
+              allow: [ELEMENT_CODE_BLOCK, ELEMENT_BLOCKQUOTE, ELEMENT_TD],
             },
           },
         ],
@@ -359,6 +358,12 @@ export function PlateEditor(initialState: EditorProps) {
   const containerRef = useRef(null)
   const id = 'pEditor'
   const [editorState, setEditorState] = useState<Value>()
+  const readOnly = useEditorReadOnly()
+  const isAdmin = true
+
+  useEffect(() => {
+    console.log(readOnly)
+  }, [readOnly])
 
   const onSave = () => {
     console.log(editorState)
@@ -385,12 +390,18 @@ export function PlateEditor(initialState: EditorProps) {
                   '[&_.slate-start-area-left]:!w-[64px] [&_.slate-start-area-right]:!w-[64px] [&_.slate-start-area-top]:!h-4'
                 )}
               >
-                <FixedToolbar>
-                  <FixedToolbarButtons />
-                </FixedToolbar>
+                {isAdmin && (
+                  <FixedToolbar>
+                    <FixedToolbarButtons />
+                  </FixedToolbar>
+                )}
+
+                <p className="px-[30px] py-[5px] font-bold text-left">
+                  2024/6/5
+                </p>
 
                 <Editor
-                  className="px-[96px] py-16"
+                  className="px-[96px] py-5 text-left"
                   autoFocus
                   focusRing={false}
                   variant="ghost"
@@ -405,14 +416,16 @@ export function PlateEditor(initialState: EditorProps) {
           </DndProvider>
         </TooltipProvider>
       </div>
-      <Button
-        className="w-full mt-2.5"
-        onClick={() => {
-          onSave()
-        }}
-      >
-        Save
-      </Button>
+      {!readOnly && isAdmin && (
+        <Button
+          className="w-full mt-2.5"
+          onClick={() => {
+            onSave()
+          }}
+        >
+          Save
+        </Button>
+      )}
     </div>
   )
 }
