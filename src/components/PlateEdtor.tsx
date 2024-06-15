@@ -337,6 +337,7 @@ const plugins = createPlugins(
   }
 )
 
+const viewModePlugins = createPlugins([], {})
 const defaultInitialValue: Value = [
   {
     id: '1',
@@ -361,6 +362,11 @@ export function PlateEditor(initialState: EditorProps) {
   const readOnly = useEditorReadOnly()
   const isAdmin = true
 
+  const initialPlugins = (() => {
+    if (isAdmin) return plugins
+    return undefined
+  })()
+
   useEffect(() => {
     console.log(readOnly)
   }, [readOnly])
@@ -371,12 +377,13 @@ export function PlateEditor(initialState: EditorProps) {
 
   return (
     <div>
+      {/* <p>{import.meta.env.VITE_TEST_ENV}</p> */}
       <div className="max-w-[1336px] rounded-lg border bg-background shadow">
         <TooltipProvider>
           <DndProvider backend={HTML5Backend}>
             <Plate
               id={id}
-              plugins={plugins}
+              plugins={initialPlugins}
               initialValue={initialValue}
               onChange={(state) => {
                 setEditorState(state)
