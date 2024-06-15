@@ -4,6 +4,7 @@ import {
   Plate,
   RenderAfterEditable,
   PlateLeaf,
+  Value,
 } from '@udecode/plate-common'
 import {
   createParagraphPlugin,
@@ -40,11 +41,6 @@ import {
   ELEMENT_MEDIA_EMBED,
 } from '@udecode/plate-media'
 import { createCaptionPlugin } from '@udecode/plate-caption'
-import {
-  createMentionPlugin,
-  ELEMENT_MENTION,
-  ELEMENT_MENTION_INPUT,
-} from '@udecode/plate-mention'
 import {
   createTablePlugin,
   ELEMENT_TABLE,
@@ -103,11 +99,7 @@ import { createResetNodePlugin } from '@udecode/plate-reset-node'
 import { createDeletePlugin } from '@udecode/plate-select'
 import { createTabbablePlugin } from '@udecode/plate-tabbable'
 import { createTrailingBlockPlugin } from '@udecode/plate-trailing-block'
-import {
-  createCommentsPlugin,
-  CommentsProvider,
-  MARK_COMMENT,
-} from '@udecode/plate-comments'
+
 import { createDeserializeDocxPlugin } from '@udecode/plate-serializer-docx'
 import { createDeserializeCsvPlugin } from '@udecode/plate-serializer-csv'
 import { createDeserializeMdPlugin } from '@udecode/plate-serializer-md'
@@ -129,8 +121,6 @@ import { ColumnGroupElement } from '@/components/plate-ui/column-group-element'
 import { ColumnElement } from '@/components/plate-ui/column-element'
 import { HeadingElement } from '@/components/plate-ui/heading-element'
 import { MediaEmbedElement } from '@/components/plate-ui/media-embed-element'
-import { MentionElement } from '@/components/plate-ui/mention-element'
-import { MentionInputElement } from '@/components/plate-ui/mention-input-element'
 import { ParagraphElement } from '@/components/plate-ui/paragraph-element'
 import { TableElement } from '@/components/plate-ui/table-element'
 import { TableRowElement } from '@/components/plate-ui/table-row-element'
@@ -140,8 +130,6 @@ import {
 } from '@/components/plate-ui/table-cell-element'
 import { TodoListElement } from '@/components/plate-ui/todo-list-element'
 import { CodeLeaf } from '@/components/plate-ui/code-leaf'
-import { CommentLeaf } from '@/components/plate-ui/comment-leaf'
-import { CommentsPopover } from '@/components/plate-ui/comments-popover'
 import { HighlightLeaf } from '@/components/plate-ui/highlight-leaf'
 import { KbdLeaf } from '@/components/plate-ui/kbd-leaf'
 import { Editor } from '@/components/plate-ui/editor'
@@ -151,9 +139,9 @@ import { FloatingToolbar } from '@/components/plate-ui/floating-toolbar'
 import { FloatingToolbarButtons } from '@/components/plate-ui/floating-toolbar-buttons'
 import { withPlaceholders } from '@/components/plate-ui/placeholder'
 import { withDraggables } from '@/components/plate-ui/with-draggables'
-import { EmojiInputElement } from '@/components/plate-ui/emoji-input-element'
 import { TooltipProvider } from '@/components/plate-ui/tooltip'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
+import { Button } from '@/components/ui/button'
 
 const plugins = createPlugins(
   [
@@ -174,7 +162,6 @@ const plugins = createPlugins(
         ],
       },
     }),
-    createMentionPlugin(),
     createTablePlugin(),
     createTodoListPlugin(),
     createExcalidrawPlugin(),
@@ -351,7 +338,7 @@ const plugins = createPlugins(
   }
 )
 
-const initialValue = [
+const defaultInitialValue: Value = [
   {
     id: '1',
     type: 'p',
@@ -359,41 +346,73 @@ const initialValue = [
   },
 ]
 
-export function PlateEditor() {
+type EditorProps = {
+  value?: Value
+}
+
+export function PlateEditor(initialState: EditorProps) {
+  const initialValue = (() => {
+    if (initialState.value) return initialState.value
+    return defaultInitialValue
+  })()
+
   const containerRef = useRef(null)
+  const id = 'pEditor'
+  const [editorState, setEditorState] = useState<Value>()
+
+  const onSave = () => {
+    console.log(editorState)
+  }
+
   return (
-    <TooltipProvider>
-      <DndProvider backend={HTML5Backend}>
-        {/* <CommentsProvider users={{}} myUserId="1"> */}
-        <Plate plugins={plugins} initialValue={initialValue}>
-          <div
-            ref={containerRef}
-            className={cn(
-              'relative',
-              // Block selection
-              '[&_.slate-start-area-left]:!w-[64px] [&_.slate-start-area-right]:!w-[64px] [&_.slate-start-area-top]:!h-4'
-            )}
-          >
-            <FixedToolbar>
-              <FixedToolbarButtons />
-            </FixedToolbar>
+    <div>
+      <div className="max-w-[1336px] rounded-lg border bg-background shadow">
+        <TooltipProvider>
+          <DndProvider backend={HTML5Backend}>
+            <Plate
+              id={id}
+              plugins={plugins}
+              initialValue={initialValue}
+              onChange={(state) => {
+                setEditorState(state)
+              }}
+            >
+              <div
+                ref={containerRef}
+                className={cn(
+                  'relative',
+                  // Block selection
+                  '[&_.slate-start-area-left]:!w-[64px] [&_.slate-start-area-right]:!w-[64px] [&_.slate-start-area-top]:!h-4'
+                )}
+              >
+                <FixedToolbar>
+                  <FixedToolbarButtons />
+                </FixedToolbar>
 
-            <Editor
-              className="px-[96px] py-16"
-              autoFocus
-              focusRing={false}
-              variant="ghost"
-              size="md"
-            />
+                <Editor
+                  className="px-[96px] py-16"
+                  autoFocus
+                  focusRing={false}
+                  variant="ghost"
+                  size="md"
+                />
 
-            {/* <CommentsPopover /> */}
-            <FloatingToolbar>
-              <FloatingToolbarButtons />
-            </FloatingToolbar>
-          </div>
-        </Plate>
-        {/* </CommentsProvider> */}
-      </DndProvider>
-    </TooltipProvider>
+                <FloatingToolbar>
+                  <FloatingToolbarButtons />
+                </FloatingToolbar>
+              </div>
+            </Plate>
+          </DndProvider>
+        </TooltipProvider>
+      </div>
+      <Button
+        className="w-full mt-2.5"
+        onClick={() => {
+          onSave()
+        }}
+      >
+        Save
+      </Button>
+    </div>
   )
 }
