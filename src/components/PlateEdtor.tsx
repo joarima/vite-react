@@ -1,148 +1,148 @@
 import { cn, withProps } from '@udecode/cn'
+import { createAlignPlugin } from '@udecode/plate-alignment'
+import { createAutoformatPlugin } from '@udecode/plate-autoformat'
 import {
-  createPlugins,
+  MARK_BOLD,
+  MARK_CODE,
+  MARK_ITALIC,
+  MARK_STRIKETHROUGH,
+  MARK_SUBSCRIPT,
+  MARK_SUPERSCRIPT,
+  MARK_UNDERLINE,
+  createBoldPlugin,
+  createCodePlugin,
+  createItalicPlugin,
+  createStrikethroughPlugin,
+  createSubscriptPlugin,
+  createSuperscriptPlugin,
+  createUnderlinePlugin,
+} from '@udecode/plate-basic-marks'
+import {
+  ELEMENT_BLOCKQUOTE,
+  createBlockquotePlugin,
+} from '@udecode/plate-block-quote'
+import {
+  createExitBreakPlugin,
+  createSoftBreakPlugin,
+} from '@udecode/plate-break'
+import { createCaptionPlugin } from '@udecode/plate-caption'
+import {
+  ELEMENT_CODE_BLOCK,
+  ELEMENT_CODE_LINE,
+  ELEMENT_CODE_SYNTAX,
+  createCodeBlockPlugin,
+} from '@udecode/plate-code-block'
+import {
   Plate,
-  RenderAfterEditable,
   PlateLeaf,
+  RenderAfterEditable,
   Value,
+  createPlugins,
   useEditorReadOnly,
 } from '@udecode/plate-common'
+import { createDndPlugin } from '@udecode/plate-dnd'
+import { createEmojiPlugin } from '@udecode/plate-emoji'
 import {
-  createParagraphPlugin,
-  ELEMENT_PARAGRAPH,
-} from '@udecode/plate-paragraph'
+  ELEMENT_EXCALIDRAW,
+  createExcalidrawPlugin,
+} from '@udecode/plate-excalidraw'
 import {
-  createHeadingPlugin,
+  createFontBackgroundColorPlugin,
+  createFontColorPlugin,
+  createFontSizePlugin,
+} from '@udecode/plate-font'
+import {
   ELEMENT_H1,
   ELEMENT_H2,
   ELEMENT_H3,
   ELEMENT_H4,
   ELEMENT_H5,
   ELEMENT_H6,
+  createHeadingPlugin,
 } from '@udecode/plate-heading'
+import { MARK_HIGHLIGHT, createHighlightPlugin } from '@udecode/plate-highlight'
 import {
-  createBlockquotePlugin,
-  ELEMENT_BLOCKQUOTE,
-} from '@udecode/plate-block-quote'
-import {
-  createCodeBlockPlugin,
-  ELEMENT_CODE_BLOCK,
-  ELEMENT_CODE_LINE,
-  ELEMENT_CODE_SYNTAX,
-} from '@udecode/plate-code-block'
-import {
-  createHorizontalRulePlugin,
   ELEMENT_HR,
+  createHorizontalRulePlugin,
 } from '@udecode/plate-horizontal-rule'
-import { createLinkPlugin, ELEMENT_LINK } from '@udecode/plate-link'
-import {
-  createImagePlugin,
-  ELEMENT_IMAGE,
-  createMediaEmbedPlugin,
-  ELEMENT_MEDIA_EMBED,
-} from '@udecode/plate-media'
-import { createCaptionPlugin } from '@udecode/plate-caption'
-import {
-  createTablePlugin,
-  ELEMENT_TABLE,
-  ELEMENT_TR,
-  ELEMENT_TD,
-  ELEMENT_TH,
-} from '@udecode/plate-table'
-import { createTodoListPlugin, ELEMENT_TODO_LI } from '@udecode/plate-list'
-import {
-  createExcalidrawPlugin,
-  ELEMENT_EXCALIDRAW,
-} from '@udecode/plate-excalidraw'
-import { createTogglePlugin, ELEMENT_TOGGLE } from '@udecode/plate-toggle'
-import {
-  createColumnPlugin,
-  ELEMENT_COLUMN_GROUP,
-  ELEMENT_COLUMN,
-} from '@udecode/plate-layout'
-import {
-  createBoldPlugin,
-  MARK_BOLD,
-  createItalicPlugin,
-  MARK_ITALIC,
-  createUnderlinePlugin,
-  MARK_UNDERLINE,
-  createStrikethroughPlugin,
-  MARK_STRIKETHROUGH,
-  createCodePlugin,
-  MARK_CODE,
-  createSubscriptPlugin,
-  MARK_SUBSCRIPT,
-  createSuperscriptPlugin,
-  MARK_SUPERSCRIPT,
-} from '@udecode/plate-basic-marks'
-import {
-  createFontColorPlugin,
-  createFontBackgroundColorPlugin,
-  createFontSizePlugin,
-} from '@udecode/plate-font'
-import { createHighlightPlugin, MARK_HIGHLIGHT } from '@udecode/plate-highlight'
-import { createKbdPlugin, MARK_KBD } from '@udecode/plate-kbd'
-import { createAlignPlugin } from '@udecode/plate-alignment'
 import { createIndentPlugin } from '@udecode/plate-indent'
 import { createIndentListPlugin } from '@udecode/plate-indent-list'
-import { createLineHeightPlugin } from '@udecode/plate-line-height'
-import { createAutoformatPlugin } from '@udecode/plate-autoformat'
-import { createBlockSelectionPlugin } from '@udecode/plate-selection'
-import { createDndPlugin } from '@udecode/plate-dnd'
-import { createEmojiPlugin } from '@udecode/plate-emoji'
+import { MARK_KBD, createKbdPlugin } from '@udecode/plate-kbd'
 import {
-  createExitBreakPlugin,
-  createSoftBreakPlugin,
-} from '@udecode/plate-break'
+  ELEMENT_COLUMN,
+  ELEMENT_COLUMN_GROUP,
+  createColumnPlugin,
+} from '@udecode/plate-layout'
+import { createLineHeightPlugin } from '@udecode/plate-line-height'
+import { ELEMENT_LINK, createLinkPlugin } from '@udecode/plate-link'
+import { ELEMENT_TODO_LI, createTodoListPlugin } from '@udecode/plate-list'
+import {
+  ELEMENT_IMAGE,
+  ELEMENT_MEDIA_EMBED,
+  createImagePlugin,
+  createMediaEmbedPlugin,
+} from '@udecode/plate-media'
 import { createNodeIdPlugin } from '@udecode/plate-node-id'
+import {
+  ELEMENT_PARAGRAPH,
+  createParagraphPlugin,
+} from '@udecode/plate-paragraph'
 import { createResetNodePlugin } from '@udecode/plate-reset-node'
 import { createDeletePlugin } from '@udecode/plate-select'
+import { createBlockSelectionPlugin } from '@udecode/plate-selection'
 import { createTabbablePlugin } from '@udecode/plate-tabbable'
+import {
+  ELEMENT_TABLE,
+  ELEMENT_TD,
+  ELEMENT_TH,
+  ELEMENT_TR,
+  createTablePlugin,
+} from '@udecode/plate-table'
+import { ELEMENT_TOGGLE, createTogglePlugin } from '@udecode/plate-toggle'
 import { createTrailingBlockPlugin } from '@udecode/plate-trailing-block'
 
-import { createDeserializeDocxPlugin } from '@udecode/plate-serializer-docx'
-import { createDeserializeCsvPlugin } from '@udecode/plate-serializer-csv'
-import { createDeserializeMdPlugin } from '@udecode/plate-serializer-md'
 import { createJuicePlugin } from '@udecode/plate-juice'
+import { createDeserializeCsvPlugin } from '@udecode/plate-serializer-csv'
+import { createDeserializeDocxPlugin } from '@udecode/plate-serializer-docx'
+import { createDeserializeMdPlugin } from '@udecode/plate-serializer-md'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 
 import { BlockquoteElement } from '@/components/plate-ui/blockquote-element'
 import { CodeBlockElement } from '@/components/plate-ui/code-block-element'
+import { CodeLeaf } from '@/components/plate-ui/code-leaf'
 import { CodeLineElement } from '@/components/plate-ui/code-line-element'
 import { CodeSyntaxLeaf } from '@/components/plate-ui/code-syntax-leaf'
-import { ExcalidrawElement } from '@/components/plate-ui/excalidraw-element'
-import { HrElement } from '@/components/plate-ui/hr-element'
-import { ImageElement } from '@/components/plate-ui/image-element'
-import { LinkElement } from '@/components/plate-ui/link-element'
-import { LinkFloatingToolbar } from '@/components/plate-ui/link-floating-toolbar'
-import { ToggleElement } from '@/components/plate-ui/toggle-element'
-import { ColumnGroupElement } from '@/components/plate-ui/column-group-element'
 import { ColumnElement } from '@/components/plate-ui/column-element'
-import { HeadingElement } from '@/components/plate-ui/heading-element'
-import { MediaEmbedElement } from '@/components/plate-ui/media-embed-element'
-import { ParagraphElement } from '@/components/plate-ui/paragraph-element'
-import { TableElement } from '@/components/plate-ui/table-element'
-import { TableRowElement } from '@/components/plate-ui/table-row-element'
-import {
-  TableCellElement,
-  TableCellHeaderElement,
-} from '@/components/plate-ui/table-cell-element'
-import { TodoListElement } from '@/components/plate-ui/todo-list-element'
-import { CodeLeaf } from '@/components/plate-ui/code-leaf'
-import { HighlightLeaf } from '@/components/plate-ui/highlight-leaf'
-import { KbdLeaf } from '@/components/plate-ui/kbd-leaf'
+import { ColumnGroupElement } from '@/components/plate-ui/column-group-element'
 import { Editor } from '@/components/plate-ui/editor'
+import { ExcalidrawElement } from '@/components/plate-ui/excalidraw-element'
 import { FixedToolbar } from '@/components/plate-ui/fixed-toolbar'
 import { FixedToolbarButtons } from '@/components/plate-ui/fixed-toolbar-buttons'
 import { FloatingToolbar } from '@/components/plate-ui/floating-toolbar'
 import { FloatingToolbarButtons } from '@/components/plate-ui/floating-toolbar-buttons'
+import { HeadingElement } from '@/components/plate-ui/heading-element'
+import { HighlightLeaf } from '@/components/plate-ui/highlight-leaf'
+import { HrElement } from '@/components/plate-ui/hr-element'
+import { ImageElement } from '@/components/plate-ui/image-element'
+import { KbdLeaf } from '@/components/plate-ui/kbd-leaf'
+import { LinkElement } from '@/components/plate-ui/link-element'
+import { LinkFloatingToolbar } from '@/components/plate-ui/link-floating-toolbar'
+import { MediaEmbedElement } from '@/components/plate-ui/media-embed-element'
+import { ParagraphElement } from '@/components/plate-ui/paragraph-element'
 import { withPlaceholders } from '@/components/plate-ui/placeholder'
-import { withDraggables } from '@/components/plate-ui/with-draggables'
+import {
+  TableCellElement,
+  TableCellHeaderElement,
+} from '@/components/plate-ui/table-cell-element'
+import { TableElement } from '@/components/plate-ui/table-element'
+import { TableRowElement } from '@/components/plate-ui/table-row-element'
+import { TodoListElement } from '@/components/plate-ui/todo-list-element'
+import { ToggleElement } from '@/components/plate-ui/toggle-element'
 import { TooltipProvider } from '@/components/plate-ui/tooltip'
-import { useEffect, useRef, useState } from 'react'
+import { withDraggables } from '@/components/plate-ui/with-draggables'
 import { Button } from '@/components/ui/button'
+import { useEffect, useRef, useState } from 'react'
 
 const plugins = createPlugins(
   [
@@ -337,7 +337,6 @@ const plugins = createPlugins(
   }
 )
 
-const viewModePlugins = createPlugins([], {})
 const defaultInitialValue: Value = [
   {
     id: '1',

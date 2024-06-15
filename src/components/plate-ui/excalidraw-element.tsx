@@ -1,4 +1,3 @@
-import React from 'react'
 
 import { withRef } from '@udecode/cn'
 import { PlateElement } from '@udecode/plate-common'

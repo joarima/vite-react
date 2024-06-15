@@ -1,4 +1,3 @@
-import React from 'react'
 
 import type { TMentionElement } from '@udecode/plate-mention'
 

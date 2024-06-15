@@ -1,5 +1,3 @@
-import React from 'react'
-
 import {
   MARK_BOLD,
   MARK_CODE,
@@ -11,25 +9,25 @@ import { useEditorReadOnly } from '@udecode/plate-common'
 
 import { Icons, iconVariants } from '@/components/icons'
 
-import { InsertDropdownMenu } from './insert-dropdown-menu'
-import { MarkToolbarButton } from './mark-toolbar-button'
-import { ModeDropdownMenu } from './mode-dropdown-menu'
-import { ToolbarGroup } from './toolbar'
-import { TurnIntoDropdownMenu } from './turn-into-dropdown-menu'
-import { MARK_COLOR, MARK_BG_COLOR } from '@udecode/plate-font'
+import { MARK_BG_COLOR, MARK_COLOR } from '@udecode/plate-font'
 import { ListStyleType } from '@udecode/plate-indent-list'
 import { ELEMENT_IMAGE } from '@udecode/plate-media'
-import { ColorDropdownMenu } from './color-dropdown-menu'
-import { MoreDropdownMenu } from './more-dropdown-menu'
 import { AlignDropdownMenu } from './align-dropdown-menu'
+import { ColorDropdownMenu } from './color-dropdown-menu'
 import { EmojiDropdownMenu } from './emoji-dropdown-menu'
 import { IndentListToolbarButton } from './indent-list-toolbar-button'
+import { IndentToolbarButton } from './indent-toolbar-button'
+import { InsertDropdownMenu } from './insert-dropdown-menu'
 import { LineHeightDropdownMenu } from './line-height-dropdown-menu'
 import { LinkToolbarButton } from './link-toolbar-button'
+import { MarkToolbarButton } from './mark-toolbar-button'
 import { MediaToolbarButton } from './media-toolbar-button'
+import { ModeDropdownMenu } from './mode-dropdown-menu'
+import { MoreDropdownMenu } from './more-dropdown-menu'
 import { OutdentToolbarButton } from './outdent-toolbar-button'
 import { TableDropdownMenu } from './table-dropdown-menu'
-import { IndentToolbarButton } from './indent-toolbar-button'
+import { ToolbarGroup } from './toolbar'
+import { TurnIntoDropdownMenu } from './turn-into-dropdown-menu'
 
 export function FixedToolbarButtons() {
   const readOnly = useEditorReadOnly()
