@@ -68,11 +68,7 @@ import {
 import { createIndentPlugin } from '@udecode/plate-indent'
 import { createIndentListPlugin } from '@udecode/plate-indent-list'
 import { MARK_KBD, createKbdPlugin } from '@udecode/plate-kbd'
-import {
-  ELEMENT_COLUMN,
-  ELEMENT_COLUMN_GROUP,
-  createColumnPlugin,
-} from '@udecode/plate-layout'
+import { ELEMENT_COLUMN, createColumnPlugin } from '@udecode/plate-layout'
 import { createLineHeightPlugin } from '@udecode/plate-line-height'
 import { ELEMENT_LINK, createLinkPlugin } from '@udecode/plate-link'
 import { ELEMENT_TODO_LI, createTodoListPlugin } from '@udecode/plate-list'
@@ -98,7 +94,7 @@ import {
   ELEMENT_TR,
   createTablePlugin,
 } from '@udecode/plate-table'
-import { ELEMENT_TOGGLE, createTogglePlugin } from '@udecode/plate-toggle'
+import { createTogglePlugin } from '@udecode/plate-toggle'
 import { createTrailingBlockPlugin } from '@udecode/plate-trailing-block'
 
 import { createJuicePlugin } from '@udecode/plate-juice'
@@ -114,7 +110,6 @@ import { CodeLeaf } from '@/components/plate-ui/code-leaf'
 import { CodeLineElement } from '@/components/plate-ui/code-line-element'
 import { CodeSyntaxLeaf } from '@/components/plate-ui/code-syntax-leaf'
 import { ColumnElement } from '@/components/plate-ui/column-element'
-import { ColumnGroupElement } from '@/components/plate-ui/column-group-element'
 import { Editor } from '@/components/plate-ui/editor'
 import { ExcalidrawElement } from '@/components/plate-ui/excalidraw-element'
 import { FixedToolbar } from '@/components/plate-ui/fixed-toolbar'
@@ -138,7 +133,6 @@ import {
 import { TableElement } from '@/components/plate-ui/table-element'
 import { TableRowElement } from '@/components/plate-ui/table-row-element'
 import { TodoListElement } from '@/components/plate-ui/todo-list-element'
-import { ToggleElement } from '@/components/plate-ui/toggle-element'
 import { TooltipProvider } from '@/components/plate-ui/tooltip'
 import { withDraggables } from '@/components/plate-ui/with-draggables'
 import { Button } from '@/components/ui/button'
@@ -307,8 +301,6 @@ const plugins = createPlugins(
         [ELEMENT_HR]: HrElement,
         [ELEMENT_IMAGE]: ImageElement,
         [ELEMENT_LINK]: LinkElement,
-        [ELEMENT_TOGGLE]: ToggleElement,
-        [ELEMENT_COLUMN_GROUP]: ColumnGroupElement,
         [ELEMENT_COLUMN]: ColumnElement,
         [ELEMENT_H1]: withProps(HeadingElement, { variant: 'h1' }),
         [ELEMENT_H2]: withProps(HeadingElement, { variant: 'h2' }),

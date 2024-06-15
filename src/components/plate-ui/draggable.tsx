@@ -1,6 +1,5 @@
 'use client'
 
-
 import type { DropTargetMonitor } from 'react-dnd'
 
 import { cn, withRef } from '@udecode/cn'
@@ -8,14 +7,11 @@ import {
   type ClassNames,
   type PlateElementProps,
   type TEditor,
-  type TElement,
-  useEditorRef,
-  useElement,
 } from '@udecode/plate-common'
 import {
-  type DragItemNode,
   useDraggable,
   useDraggableState,
+  type DragItemNode,
 } from '@udecode/plate-dnd'
 import { blockSelectionActions } from '@udecode/plate-selection'
 
@@ -77,9 +73,6 @@ export interface DraggableProps
 }
 
 const DragHandle = () => {
-  const editor = useEditorRef()
-  const element = useElement<TElement>()
-
   return (
     <Tooltip>
       <TooltipTrigger type="button">
