@@ -17,6 +17,7 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
+    'react/prop-types': 'off',
     // '@typescript-eslint/naming-convention': [
     //   'error',
     //   {

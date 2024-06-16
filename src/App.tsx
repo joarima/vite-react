@@ -1,7 +1,6 @@
 import { PlateEditor } from '@/components/PlateEdtor'
 import { PlateController } from '@udecode/plate-common'
 import { useParams } from 'react-router-dom'
-import './App.css'
 
 function App() {
   const { id } = useParams<{ id: string }>()
