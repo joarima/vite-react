@@ -6,7 +6,7 @@ export function Footer() {
           <div className="flex items-center">
             <span className="sr-only">title</span>
           </div>
-          <nav className="hidden md:flex gap-4">
+          <nav className="flex gap-4">
             <a
               href="#"
               className="font-medium flex items-center text-sm transition-colors hover:underline"

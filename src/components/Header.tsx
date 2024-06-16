@@ -9,7 +9,7 @@ export function Header() {
             <img src="owl.png" className="h-12" />
             <span className="sr-only">Acme Inc</span>
           </a>
-          <nav className="hidden md:flex gap-4">
+          <nav className="flex gap-4">
             <a
               href="#"
               className="font-medium flex items-center text-sm transition-colors hover:underline"
