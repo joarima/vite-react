@@ -12,14 +12,30 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useState } from 'react'
 
+import { supabase } from '@/lib/supabase'
+
 export function SignInDialog() {
   const [dialogOpen, setDialogOpen] = useState<boolean>(false)
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
-  const onSubmit = () => {
-    setDialogOpen(false)
+  const onSubmit = async () => {
     // sign in request
-    alert(`email: ${email}, password: ${password}`)
+    try {
+      if (email === '' || password === '') return
+
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      })
+
+      if (error) {
+        throw new Error(error.message)
+      }
+    } catch (err) {
+      console.log(err)
+    } finally {
+      setDialogOpen(false)
+    }
   }
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>

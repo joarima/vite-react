@@ -91,7 +91,7 @@ export function SignUpDialog() {
               onSubmit()
             }}
           >
-            Sign In
+            Sign Up
           </Button>
         </DialogFooter>
       </DialogContent>
