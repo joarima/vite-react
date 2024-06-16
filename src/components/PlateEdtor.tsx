@@ -137,6 +137,7 @@ import { TooltipProvider } from '@/components/plate-ui/tooltip'
 import { withDraggables } from '@/components/plate-ui/with-draggables'
 import { Button } from '@/components/ui/button'
 import { useEffect, useRef, useState } from 'react'
+import { useAuth } from './authProvider'
 
 const plugins = createPlugins(
   [
@@ -351,7 +352,10 @@ export function PlateEditor(initialState: EditorProps) {
   const id = 'pEditor'
   const [editorState, setEditorState] = useState<Value>()
   const readOnly = useEditorReadOnly()
-  const isAdmin = true
+
+  const { user } = useAuth()
+
+  const isAdmin = !!user
 
   const initialPlugins = (() => {
     if (isAdmin) return plugins

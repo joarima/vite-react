@@ -1,6 +1,24 @@
+import { Button } from '@/components/ui/button'
+import { supabase } from '@/lib/supabase'
 import { SignInDialog } from './SignInDialog'
+import { useAuth } from './authProvider'
 // https://v0.dev/t/xYHqD5MkVkT
 export function Header() {
+  const { user } = useAuth()
+
+  const onLogout = async () => {
+    // sign out request
+    try {
+      const { error } = await await supabase.auth.signOut()
+
+      if (error) {
+        throw new Error(error.message)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   return (
     <nav className="fixed inset-x-0 top-0 z-50 bg-white shadow-sm dark:bg-gray-950/90">
       <div className="w-full max-w-7xl mx-auto px-4">
@@ -35,7 +53,18 @@ export function Header() {
             </a>
           </nav>
           <div className="flex items-center gap-4 mr-8">
-            <SignInDialog />
+            {user ? (
+              <Button
+                variant="outline"
+                onClick={() => {
+                  onLogout()
+                }}
+              >
+                Logout
+              </Button>
+            ) : (
+              <SignInDialog />
+            )}
             {/* for user create */}
             {/* <SignUpDialog /> */}
           </div>
