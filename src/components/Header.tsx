@@ -1,4 +1,5 @@
-import { Button } from '@/components/ui/button'
+import { SignInDialog } from './SignInDialog'
+import { SignUpDialog } from './SignUpDialog'
 // https://v0.dev/t/xYHqD5MkVkT
 export function Header() {
   return (
@@ -35,10 +36,8 @@ export function Header() {
             </a>
           </nav>
           <div className="flex items-center gap-4 mr-8">
-            <Button variant="outline" size="sm">
-              Sign in
-            </Button>
-            <Button size="sm">Sign up</Button>
+            <SignInDialog />
+            <SignUpDialog />
           </div>
         </div>
       </div>
