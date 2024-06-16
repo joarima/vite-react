@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { supabase } from '@/lib/supabase'
 import { SignInDialog } from './SignInDialog'
-import { useAuth } from './authProvider'
+import { useAuth } from './SupabaseAuthProvider'
 // https://v0.dev/t/xYHqD5MkVkT
 export function Header() {
   const { user } = useAuth()

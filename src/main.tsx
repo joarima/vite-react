@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import App from './App.tsx'
 import { Footer } from './components/Footer.tsx'
 import { Header } from './components/Header'
-import AuthProvider from './components/authProvider.tsx'
+import AuthProvider from './components/SupabaseAuthProvider.tsx'
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

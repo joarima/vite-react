@@ -137,7 +137,7 @@ import { TooltipProvider } from '@/components/plate-ui/tooltip'
 import { withDraggables } from '@/components/plate-ui/with-draggables'
 import { Button } from '@/components/ui/button'
 import { useEffect, useRef, useState } from 'react'
-import { useAuth } from './authProvider'
+import { useAuth } from './SupabaseAuthProvider'
 
 const plugins = createPlugins(
   [
