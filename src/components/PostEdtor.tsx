@@ -38,7 +38,6 @@ import {
   RenderAfterEditable,
   Value,
   createPlugins,
-  useEditorReadOnly,
 } from '@udecode/plate-common'
 import { createDndPlugin } from '@udecode/plate-dnd'
 import { createEmojiPlugin } from '@udecode/plate-emoji'
@@ -343,7 +342,6 @@ type EditorProps = {
 export function PostEditor({ record, isNewPost = false }: EditorProps) {
   const containerRef = useRef(null)
   const id = 'pEditor'
-  const readOnly = useEditorReadOnly()
   const { user } = useAuth()
   const isAdmin = !!user
   const initialPlugins = (() => {
@@ -384,6 +382,7 @@ export function PostEditor({ record, isNewPost = false }: EditorProps) {
             <DndProvider backend={HTML5Backend}>
               <Plate
                 id={id}
+                readOnly={!isAdmin}
                 plugins={initialPlugins}
                 initialValue={initialValue}
                 onChange={(state) => {
@@ -417,10 +416,11 @@ export function PostEditor({ record, isNewPost = false }: EditorProps) {
                     variant="ghost"
                     size="md"
                   />
-
-                  <FloatingToolbar>
-                    <FloatingToolbarButtons />
-                  </FloatingToolbar>
+                  {isAdmin && (
+                    <FloatingToolbar>
+                      <FloatingToolbarButtons />
+                    </FloatingToolbar>
+                  )}
                 </div>
               </Plate>
             </DndProvider>
