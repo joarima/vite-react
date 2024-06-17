@@ -8,13 +8,13 @@ export function Footer() {
           </div>
           <nav className="flex gap-4">
             <a
-              href="#"
+              href="/"
               className="font-medium flex items-center text-sm transition-colors hover:underline"
             >
               Home
             </a>
             <a
-              href="#"
+              href="/about"
               className="font-medium flex items-center text-sm transition-colors hover:underline"
             >
               About
