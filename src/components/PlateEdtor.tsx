@@ -136,8 +136,11 @@ import { TodoListElement } from '@/components/plate-ui/todo-list-element'
 import { TooltipProvider } from '@/components/plate-ui/tooltip'
 import { withDraggables } from '@/components/plate-ui/with-draggables'
 import { Button } from '@/components/ui/button'
-import { useEffect, useRef, useState } from 'react'
+import { format } from '@/lib/date'
+import { PostRecord } from '@/types/Editor'
+import { useRef, useState } from 'react'
 import { useAuth } from './SupabaseAuthProvider'
+import { Skeleton } from './ui/skeleton'
 
 const plugins = createPlugins(
   [
@@ -330,94 +333,86 @@ const plugins = createPlugins(
   }
 )
 
-const defaultInitialValue: Value = [
-  {
-    id: '1',
-    type: 'p',
-    children: [{ text: 'Hello, World!' }],
-  },
-]
-
 type EditorProps = {
-  value?: Value
+  record?: PostRecord
 }
 
-export function PlateEditor(initialState: EditorProps) {
-  const initialValue = (() => {
-    if (initialState.value) return initialState.value
-    return defaultInitialValue
-  })()
-
+export function PostEditor(initialState: EditorProps) {
   const containerRef = useRef(null)
   const id = 'pEditor'
-  const [editorState, setEditorState] = useState<Value>()
   const readOnly = useEditorReadOnly()
-
   const { user } = useAuth()
-
   const isAdmin = !!user
-
   const initialPlugins = (() => {
     if (isAdmin) return plugins
     return undefined
   })()
+  const initialValue = initialState.record?.content
 
-  useEffect(() => {
-    console.log(readOnly)
-  }, [readOnly])
+  const [editorState, setEditorState] = useState<Value | undefined>(undefined)
 
   const onSave = () => {
-    console.log(editorState)
+    const content = editorState as object
+    if (content === ([] as object) || content === undefined) {
+      alert('no content')
+      return
+    }
+    // savePost(content)
   }
 
   return (
     <div>
-      {/* <p>{import.meta.env.VITE_TEST_ENV}</p> */}
-      <div className="max-w-[1336px] rounded-lg border bg-background shadow">
-        <TooltipProvider>
-          <DndProvider backend={HTML5Backend}>
-            <Plate
-              id={id}
-              plugins={initialPlugins}
-              initialValue={initialValue}
-              onChange={(state) => {
-                setEditorState(state)
-              }}
-            >
-              <div
-                ref={containerRef}
-                className={cn(
-                  'relative',
-                  // Block selection
-                  '[&_.slate-start-area-left]:!w-[64px] [&_.slate-start-area-right]:!w-[64px] [&_.slate-start-area-top]:!h-4'
-                )}
+      {initialValue ? (
+        <div className="max-w-[1336px] rounded-lg border bg-background shadow">
+          <TooltipProvider>
+            <DndProvider backend={HTML5Backend}>
+              <Plate
+                id={id}
+                plugins={initialPlugins}
+                initialValue={initialValue}
+                onChange={(state) => {
+                  console.log('change')
+                  setEditorState(state)
+                }}
               >
-                {isAdmin && (
-                  <FixedToolbar>
-                    <FixedToolbarButtons />
-                  </FixedToolbar>
-                )}
+                <div
+                  ref={containerRef}
+                  className={cn(
+                    'relative',
+                    // Block selection
+                    '[&_.slate-start-area-left]:!w-[64px] [&_.slate-start-area-right]:!w-[64px] [&_.slate-start-area-top]:!h-4'
+                  )}
+                >
+                  {isAdmin && (
+                    <FixedToolbar>
+                      <FixedToolbarButtons />
+                    </FixedToolbar>
+                  )}
 
-                <p className="px-[30px] py-[5px] font-bold text-left">
-                  2024/6/5
-                </p>
+                  {initialState.record && (
+                    <p className="px-[30px] py-[5px] font-bold text-left">
+                      {format(initialState.record!.createdAt)}
+                    </p>
+                  )}
+                  <Editor
+                    className="px-[96px] py-5 text-left"
+                    autoFocus
+                    focusRing={false}
+                    variant="ghost"
+                    size="md"
+                  />
 
-                <Editor
-                  className="px-[96px] py-5 text-left"
-                  autoFocus
-                  focusRing={false}
-                  variant="ghost"
-                  size="md"
-                />
-
-                <FloatingToolbar>
-                  <FloatingToolbarButtons />
-                </FloatingToolbar>
-              </div>
-            </Plate>
-          </DndProvider>
-        </TooltipProvider>
-      </div>
+                  <FloatingToolbar>
+                    <FloatingToolbarButtons />
+                  </FloatingToolbar>
+                </div>
+              </Plate>
+            </DndProvider>
+          </TooltipProvider>
+        </div>
+      ) : (
+        <Skeleton className="h-[125px] w-full py-5 rounded-xl" />
+      )}
       {!readOnly && isAdmin && (
         <Button
           className="w-full mt-2.5"
