@@ -41,10 +41,10 @@ export function Header() {
             </a>
             {user && (
               <a
-                href="#"
+                href="/new"
                 className="font-medium flex items-center text-sm transition-colors hover:underline"
               >
-                Services
+                New
               </a>
             )}
             <a
