@@ -336,9 +336,10 @@ const plugins = createPlugins(
 
 type EditorProps = {
   record?: PostRecord
+  isNewPost?: boolean
 }
 
-export function PostEditor(initialState: EditorProps) {
+export function PostEditor({ record, isNewPost = false }: EditorProps) {
   const containerRef = useRef(null)
   const id = 'pEditor'
   const readOnly = useEditorReadOnly()
@@ -349,8 +350,8 @@ export function PostEditor(initialState: EditorProps) {
     return undefined
   })()
 
-  const postId = initialState.record?.id
-  const initialValue = initialState.record?.content
+  const postId = record?.id
+  const initialValue = record?.content
 
   const [editorState, setEditorState] = useState<Value | undefined>(undefined)
 
@@ -370,7 +371,7 @@ export function PostEditor(initialState: EditorProps) {
 
   return (
     <div>
-      {initialValue ? (
+      {isNewPost || initialValue ? (
         <div className="max-w-[1336px] rounded-lg border bg-background shadow">
           <TooltipProvider>
             <DndProvider backend={HTML5Backend}>
@@ -397,9 +398,9 @@ export function PostEditor(initialState: EditorProps) {
                     </FixedToolbar>
                   )}
 
-                  {initialState.record && (
+                  {record && (
                     <p className="px-[30px] py-[5px] font-bold text-left">
-                      {format(initialState.record!.createdAt)}
+                      {format(record!.createdAt)}
                     </p>
                   )}
                   <Editor

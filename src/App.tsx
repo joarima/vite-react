@@ -1,4 +1,4 @@
-import { PostEditor } from '@/components/PlateEdtor'
+import { PostEditor } from '@/components/PostEdtor'
 import { PlateController, Value } from '@udecode/plate-common'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
