@@ -14,7 +14,7 @@ const Router = () => {
   useEffect(() => {}, [])
 
   return (
-    <div>
+    <div className="my-14">
       <BrowserRouter>
         <Header />
         <Routes>

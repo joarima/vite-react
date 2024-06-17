@@ -31,7 +31,7 @@ export function Pagination({ currentId, record, posts }: Props) {
   const paginationPrevItem = (
     <PaginationItem key="prev">
       <PaginationPrevious
-        href={!isFirstPost ? prevRecordId : undefined}
+        href={!isFirstPost ? `/${prevRecordId}` : undefined}
         aria-disabled={isFirstPost}
         tabIndex={isFirstPost ? -1 : undefined}
         className={isFirstPost ? 'pointer-events-none opacity-50' : undefined}
@@ -52,7 +52,7 @@ export function Pagination({ currentId, record, posts }: Props) {
   const paginationNextItem = (
     <PaginationItem key="next">
       <PaginationNext
-        href={!isLastPost ? nextRecordId : undefined}
+        href={!isLastPost ? `/${nextRecordId}` : undefined}
         aria-disabled={isLastPost}
         tabIndex={isLastPost ? -1 : undefined}
         className={isLastPost ? 'pointer-events-none opacity-50' : undefined}

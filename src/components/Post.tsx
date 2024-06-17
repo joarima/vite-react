@@ -57,10 +57,11 @@ export function Post() {
     }
   }
 
+  // react-router-dom の Link で移動した時に発火しないので id を使っている
   useEffect(() => {
     fetch()
     fetchList()
-  }, [])
+  }, [id])
 
   return (
     <div className="flex-1">

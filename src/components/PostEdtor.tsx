@@ -344,10 +344,10 @@ export function PostEditor({ record, isNewPost = false }: EditorProps) {
   const id = 'pEditor'
   const { user } = useAuth()
   const isAdmin = !!user
-  const initialPlugins = (() => {
-    if (isAdmin) return plugins
-    return undefined
-  })()
+  // const initialPlugins = (() => {
+  //   if (isAdmin) return plugins
+  //   return undefined
+  // })()
   const [isPosting, setIsPosting] = useState<boolean>(false)
 
   const postId = record?.id
@@ -376,14 +376,20 @@ export function PostEditor({ record, isNewPost = false }: EditorProps) {
 
   return (
     <div>
+      {record && (
+        <p className="px-[30px] py-[5px] font-bold text-left">
+          {format(record!.createdAt)}
+        </p>
+      )}
       {isNewPost || initialValue ? (
         <div className="max-w-[1336px] rounded-lg border bg-background shadow">
           <TooltipProvider>
             <DndProvider backend={HTML5Backend}>
               <Plate
                 id={id}
+                key={postId}
                 readOnly={!isAdmin}
-                plugins={initialPlugins}
+                plugins={plugins}
                 initialValue={initialValue}
                 onChange={(state) => {
                   setEditorState(state)
@@ -403,11 +409,6 @@ export function PostEditor({ record, isNewPost = false }: EditorProps) {
                     </FixedToolbar>
                   )}
 
-                  {record && (
-                    <p className="px-[30px] py-[5px] font-bold text-left">
-                      {format(record!.createdAt)}
-                    </p>
-                  )}
                   <Editor
                     className="px-[96px] py-5 text-left"
                     autoFocus
