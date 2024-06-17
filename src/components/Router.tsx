@@ -1,5 +1,5 @@
-import { About } from '@/About'
-import App from '@/App'
+import { About } from '@/components/About'
+import App from '@/components/App'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import NewPost from './NewPost'
 import { useAuth } from './SupabaseAuthProvider'

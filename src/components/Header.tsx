@@ -39,12 +39,14 @@ export function Header() {
             >
               About
             </a>
-            <a
-              href="#"
-              className="font-medium flex items-center text-sm transition-colors hover:underline"
-            >
-              Services
-            </a>
+            {user && (
+              <a
+                href="#"
+                className="font-medium flex items-center text-sm transition-colors hover:underline"
+              >
+                Services
+              </a>
+            )}
             <a
               href="#"
               className="font-medium flex items-center text-sm transition-colors hover:underline"

@@ -2,9 +2,9 @@ import { PostEditor } from '@/components/PostEdtor'
 import { PlateController, Value } from '@udecode/plate-common'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { useToast } from './components/ui/use-toast'
-import { fetchPost } from './lib/posts'
-import { PostRecord } from './types/Editor'
+import { fetchPost } from '../lib/posts'
+import { PostRecord } from '../types/Editor'
+import { useToast } from './ui/use-toast'
 
 function App() {
   const { toast } = useToast()
