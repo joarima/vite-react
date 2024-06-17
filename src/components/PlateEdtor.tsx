@@ -137,6 +137,7 @@ import { TooltipProvider } from '@/components/plate-ui/tooltip'
 import { withDraggables } from '@/components/plate-ui/with-draggables'
 import { Button } from '@/components/ui/button'
 import { format } from '@/lib/date'
+import { savePost, updatePost } from '@/lib/posts'
 import { PostRecord } from '@/types/Editor'
 import { useRef, useState } from 'react'
 import { useAuth } from './SupabaseAuthProvider'
@@ -347,6 +348,8 @@ export function PostEditor(initialState: EditorProps) {
     if (isAdmin) return plugins
     return undefined
   })()
+
+  const postId = initialState.record?.id
   const initialValue = initialState.record?.content
 
   const [editorState, setEditorState] = useState<Value | undefined>(undefined)
@@ -357,7 +360,12 @@ export function PostEditor(initialState: EditorProps) {
       alert('no content')
       return
     }
-    // savePost(content)
+
+    if (postId) {
+      updatePost(postId, content)
+    } else {
+      savePost(content)
+    }
   }
 
   return (
