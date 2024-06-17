@@ -8,3 +8,9 @@ export type PostRecord = {
   createdAt: string
   updatedAt: string
 }
+
+export type PostListData = {
+  id: string
+  order: number
+  isOpen: boolean
+}

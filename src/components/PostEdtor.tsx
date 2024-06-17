@@ -386,7 +386,6 @@ export function PostEditor({ record, isNewPost = false }: EditorProps) {
                 plugins={initialPlugins}
                 initialValue={initialValue}
                 onChange={(state) => {
-                  console.log('change')
                   setEditorState(state)
                 }}
               >

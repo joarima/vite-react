@@ -1,15 +1,16 @@
 import { Json } from '@/types/supabase'
 import { supabase } from './supabase'
 
-export const fetchPostList = async () => {
+export const fetchPostList = async (isLoggedIn?: boolean) => {
   const postItems = await supabase
     .from('post')
-    .select('id ,order,content, is_open')
+    .select('id ,order, is_open')
+    .order(' order ', { ascending: false })
   return postItems.data ?? []
 }
 
-export const fetchPost = async (order?: number) => {
-  if (!order) {
+export const fetchPost = async (id?: string) => {
+  if (!id) {
     const post = await supabase
       .from('post')
       .select('*')
@@ -22,7 +23,7 @@ export const fetchPost = async (order?: number) => {
     const post = await supabase
       .from('post')
       .select('id, order, content, is_open, created_at, updated_at')
-      .eq(' order ', order)
+      .eq('id', id)
       .order(' order ', { ascending: false })
       .limit(1)
       .single()

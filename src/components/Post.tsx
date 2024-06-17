@@ -1,28 +1,42 @@
 import { PostEditor } from '@/components/PostEdtor'
+
 import { PlateController, Value } from '@udecode/plate-common'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { fetchPost } from '../lib/posts'
-import { PostRecord } from '../types/Editor'
+import { fetchPost, fetchPostList } from '../lib/posts'
+import { PostListData, PostRecord } from '../types/Editor'
+import { Pagination } from './Pagination'
+import { useAuth } from './SupabaseAuthProvider'
 import { useToast } from './ui/use-toast'
 
-function App() {
+export function Post() {
+  const { user } = useAuth()
+  const isAdmin = !!user
   const { toast } = useToast()
   const { id } = useParams<{ id: string }>()
   const [record, setRecord] = useState<PostRecord | undefined>(undefined)
+  const [posts, setPosts] = useState<PostListData[]>([])
+
+  const fetchList = async () => {
+    try {
+      await fetchPostList(isAdmin).then((rs) => {
+        const listData = rs.map((it) => {
+          return {
+            id: it.id,
+            order: it.order,
+            isOpen: it.is_open,
+          }
+        })
+        setPosts(listData)
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const fetch = async () => {
     try {
-      const order = Number(id)
-
-      if (Number.isNaN(order)) {
-        toast({
-          title: 'Invalid id: id need to be number.',
-          description: 'showing latest content.',
-        })
-      }
-
-      const record = await fetchPost(order)
+      const record = await fetchPost(id)
 
       if (record) {
         setRecord({
@@ -35,12 +49,17 @@ function App() {
         })
       }
     } catch (error) {
-      console.log('not valid id')
+      console.log(error)
+      toast({
+        title: 'Invalid id.',
+        description: `there is no post with id: ${id}.`,
+      })
     }
   }
 
   useEffect(() => {
     fetch()
+    fetchList()
   }, [])
 
   return (
@@ -50,8 +69,7 @@ function App() {
           <PostEditor record={record} />
         </PlateController>
       </section>
+      <Pagination currentId={id} posts={posts} record={record} />
     </div>
   )
 }
-
-export default App
