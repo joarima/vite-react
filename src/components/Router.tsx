@@ -2,6 +2,8 @@ import { About } from '@/components/About'
 import { Post } from '@/components/Post'
 import { useEffect } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { Footer } from './Footer'
+import { Header } from './Header'
 import NewPost from './NewPost'
 import { useAuth } from './SupabaseAuthProvider'
 
@@ -14,6 +16,7 @@ const Router = () => {
   return (
     <div>
       <BrowserRouter>
+        <Header />
         <Routes>
           <Route
             path="/new"
@@ -22,6 +25,7 @@ const Router = () => {
           <Route path="/about" element={<About />} />
           <Route path="/:id?" element={<Post />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </div>
   )

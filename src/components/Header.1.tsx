@@ -3,6 +3,7 @@ import { supabase } from '@/lib/supabase'
 import { Link } from 'react-router-dom'
 import { SignInDialog } from './SignInDialog'
 import { useAuth } from './SupabaseAuthProvider'
+
 // https://v0.dev/t/xYHqD5MkVkT
 export function Header() {
   const { user } = useAuth()
@@ -25,30 +26,37 @@ export function Header() {
       <div className="w-full max-w-7xl mx-auto px-4">
         <div className="flex justify-between h-14 items-center">
           <Link to={'/'} className="flex flex-shrink-0 items-center ml-8">
-            <img src="owl.png" className="h-12" />
+            <a href="/" className="flex flex-shrink-0 items-center ml-8">
+              <img src="owl.png" className="h-12" />
+            </a>
           </Link>
           <nav className="flex gap-4">
-            <Link
-              to={'/'}
+            <a
+              href="/"
               className="font-medium flex items-center text-sm transition-colors hover:underline"
             >
               Home
-            </Link>
-            <Link
-              to={'/about'}
+            </a>
+            <a
+              href="/about"
               className="font-medium flex items-center text-sm transition-colors hover:underline"
             >
               About
-            </Link>
+            </a>
             {user && (
-              <Link
-                to={'/new'}
+              <a
+                href="/new"
                 className="font-medium flex items-center text-sm transition-colors hover:underline"
               >
                 New
-              </Link>
+              </a>
             )}
-            <Link to={'#'}>Contact</Link>
+            <a
+              href="#"
+              className="font-medium flex items-center text-sm transition-colors hover:underline"
+            >
+              Contact
+            </a>
           </nav>
           <div className="flex items-center gap-4 mr-8">
             {user ? (
