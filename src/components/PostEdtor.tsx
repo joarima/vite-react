@@ -139,6 +139,7 @@ import { Button } from '@/components/ui/button'
 import { format } from '@/lib/date'
 import { savePost, updatePost } from '@/lib/posts'
 import { PostRecord } from '@/types/Editor'
+import { LoaderCircle } from 'lucide-react'
 import { useRef, useState } from 'react'
 import { useAuth } from './SupabaseAuthProvider'
 import { Skeleton } from './ui/skeleton'
@@ -349,6 +350,7 @@ export function PostEditor({ record, isNewPost = false }: EditorProps) {
     if (isAdmin) return plugins
     return undefined
   })()
+  const [isPosting, setIsPosting] = useState<boolean>(false)
 
   const postId = record?.id
   const initialValue = record?.content
@@ -356,6 +358,7 @@ export function PostEditor({ record, isNewPost = false }: EditorProps) {
   const [editorState, setEditorState] = useState<Value | undefined>(undefined)
 
   const onSave = () => {
+    setIsPosting(true)
     const content = editorState as object
     if (content === ([] as object) || content === undefined) {
       alert('no content')
@@ -363,9 +366,13 @@ export function PostEditor({ record, isNewPost = false }: EditorProps) {
     }
 
     if (postId) {
-      updatePost(postId, content)
+      updatePost(postId, content).then(() => {
+        setIsPosting(false)
+      })
     } else {
-      savePost(content)
+      savePost(content).then(() => {
+        setIsPosting(false)
+      })
     }
   }
 
@@ -422,7 +429,13 @@ export function PostEditor({ record, isNewPost = false }: EditorProps) {
       ) : (
         <Skeleton className="h-[125px] w-full py-5 rounded-xl" />
       )}
-      {!readOnly && isAdmin && (
+
+      {isAdmin && isPosting && (
+        <Button className="w-full mt-2.5" disabled>
+          <LoaderCircle className="animate-spin" />
+        </Button>
+      )}
+      {isAdmin && !isPosting && (
         <Button
           className="w-full mt-2.5"
           onClick={() => {
