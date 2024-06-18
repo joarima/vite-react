@@ -369,7 +369,7 @@ export function PostEditor({ record, isNewPost = false }: EditorProps) {
   const onSave = () => {
     setIsPosting(true)
     const content = editorState as object
-    if (content === ([] as object) || content === undefined) {
+    if (content === undefined) {
       alert('no content')
       setIsPosting(false)
       return
