@@ -42,7 +42,10 @@ export function Pagination({ currentId, record, posts }: Props) {
   const paginationItems = posts.map((post, index) => {
     return (
       <PaginationItem key={post.id}>
-        <PaginationLink href={`/${post.id}`} isActive={currentId === post.id}>
+        <PaginationLink
+          href={`/${post.id}`}
+          isActive={(!currentId && index === 0) || currentId === post.id}
+        >
           {index}
         </PaginationLink>
       </PaginationItem>
