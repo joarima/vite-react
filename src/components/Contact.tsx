@@ -18,7 +18,7 @@ export function Contact() {
         <HoverCardTrigger asChild>
           <Button variant="link">@joarima.bsky.social</Button>
         </HoverCardTrigger>
-        <HoverCardContent className="w-80">
+        <HoverCardContent className="w-auto max-w-xs">
           <div className="flex justify-between space-x-4">
             <Avatar>
               <AvatarImage src="ghostsandvodka2.jpg" />
@@ -34,7 +34,7 @@ export function Contact() {
                   @joarima.bsky.social
                 </a>
               </h4>
-              <p className="text-sm">there are not many to say.</p>
+              <p className="text-sm break-all">there are not many to say.</p>
             </div>
           </div>
         </HoverCardContent>
