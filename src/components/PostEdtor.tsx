@@ -139,8 +139,9 @@ import { format } from '@/lib/date'
 import { savePost, updatePost } from '@/lib/posts'
 import { PostRecord } from '@/types/Editor'
 import { LoaderCircle } from 'lucide-react'
-import { useRef, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { useAuth } from './SupabaseAuthProvider'
+import { Checkbox, CheckedState } from './ui/checkbox'
 import { Skeleton } from './ui/skeleton'
 
 const plugins = createPlugins(
@@ -344,31 +345,42 @@ export function PostEditor({ record, isNewPost = false }: EditorProps) {
   const id = 'pEditor'
   const { user } = useAuth()
   const isAdmin = !!user
-  // const initialPlugins = (() => {
-  //   if (isAdmin) return plugins
-  //   return undefined
-  // })()
+
   const [isPosting, setIsPosting] = useState<boolean>(false)
 
   const postId = record?.id
   const initialValue = record?.content
 
-  const [editorState, setEditorState] = useState<Value | undefined>(undefined)
+  const [editorState, setEditorState] = useState<Value | undefined>(
+    initialValue
+  )
+  const [open, setOpen] = useState<boolean>(record?.isOpen ?? false)
+
+  const toggleOpen = (checkState: CheckedState) => {
+    const checked = checkState !== false && checkState != 'indeterminate'
+    setOpen(checked)
+  }
+
+  useMemo(() => {
+    setEditorState(record?.content)
+    setOpen(record?.isOpen ?? false)
+  }, [record?.content, record?.isOpen])
 
   const onSave = () => {
     setIsPosting(true)
     const content = editorState as object
     if (content === ([] as object) || content === undefined) {
       alert('no content')
+      setIsPosting(false)
       return
     }
 
     if (postId) {
-      updatePost(postId, content).then(() => {
+      updatePost(postId, content, open).then(() => {
         setIsPosting(false)
       })
     } else {
-      savePost(content).then(() => {
+      savePost(content, open).then(() => {
         setIsPosting(false)
       })
     }
@@ -376,11 +388,31 @@ export function PostEditor({ record, isNewPost = false }: EditorProps) {
 
   return (
     <div>
-      {record && (
-        <p className="px-[30px] py-[5px] font-thin text-left">
-          {format(record!.createdAt)}
-        </p>
-      )}
+      <div className="flex items-center">
+        {record && (
+          <p className="py-[5px] font-thin text-left flex-grow">
+            {format(record!.createdAt)}
+          </p>
+        )}
+        {isAdmin && (
+          <div className="items-top flex space-x-2">
+            <Checkbox
+              id="terms1"
+              key={postId ?? 'new'}
+              defaultChecked={open}
+              onCheckedChange={toggleOpen}
+            />
+            <div className="grid gap-1.5 leading-none">
+              <label
+                htmlFor="terms1"
+                className="text-sm font-thin leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                open
+              </label>
+            </div>
+          </div>
+        )}
+      </div>
       {isNewPost || initialValue ? (
         <div className="max-w-[1336px] rounded-lg border bg-background shadow">
           <TooltipProvider>

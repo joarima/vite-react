@@ -3,8 +3,8 @@ import { PostEditor } from '@/components/PostEdtor'
 import { PlateController, Value } from '@udecode/plate-common'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { fetchPost, fetchPostList } from '../lib/posts'
-import { PostListData, PostRecord } from '../types/Editor'
+import { fetchPost, fetchPostAdmin, fetchPostList } from '../lib/posts'
+import { PostFetchResult, PostListData, PostRecord } from '../types/Editor'
 import { Pagination } from './Pagination'
 import { useAuth } from './SupabaseAuthProvider'
 import { useToast } from './ui/use-toast'
@@ -23,8 +23,6 @@ export function Post() {
         const listData = rs.map((it) => {
           return {
             id: it.id,
-            order: it.order,
-            isOpen: it.is_open,
           }
         })
         setPosts(listData)
@@ -34,19 +32,29 @@ export function Post() {
     }
   }
 
+  const resToRecord = (res: PostFetchResult) => {
+    if (res === undefined) {
+      return
+    } else {
+      setRecord({
+        id: res.id,
+        order: res.order,
+        content: res.content as Value,
+        isOpen: res.is_open,
+        createdAt: res.created_at,
+        updatedAt: res.updated_at,
+      })
+    }
+  }
+
   const fetch = async () => {
     try {
-      const record = await fetchPost(id)
-
-      if (record) {
-        setRecord({
-          id: record.id,
-          order: record.order,
-          content: record.content as Value,
-          isOpen: record.is_open,
-          createdAt: record.created_at,
-          updatedAt: record.updated_at,
-        })
+      if (isAdmin) {
+        const res = await fetchPostAdmin(id)
+        resToRecord(res)
+      } else {
+        const res = await fetchPost(id)
+        resToRecord(res)
       }
     } catch (error) {
       console.log(error)
