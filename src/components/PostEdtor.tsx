@@ -377,7 +377,7 @@ export function PostEditor({ record, isNewPost = false }: EditorProps) {
   return (
     <div>
       {record && (
-        <p className="px-[30px] py-[5px] font-bold text-left">
+        <p className="px-[30px] py-[5px] font-thin text-left">
           {format(record!.createdAt)}
         </p>
       )}

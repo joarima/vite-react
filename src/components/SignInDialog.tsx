@@ -41,6 +41,7 @@ export function SignInDialog() {
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>
         <Button
+          className="font-thin"
           variant="outline"
           onClick={() => {
             setDialogOpen(true)
@@ -51,12 +52,14 @@ export function SignInDialog() {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Sign In</DialogTitle>
-          <DialogDescription>Sign in to edit.</DialogDescription>
+          <DialogTitle className="font-thin">Sign In</DialogTitle>
+          <DialogDescription className="font-thin">
+            Sign in to edit.
+          </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="email" className="text-right">
+            <Label htmlFor="email" className="text-right font-thin">
               Email
             </Label>
             <Input
@@ -69,7 +72,7 @@ export function SignInDialog() {
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="password" className="text-right">
+            <Label htmlFor="password" className="text-right font-thin">
               Password
             </Label>
             <Input
@@ -84,6 +87,7 @@ export function SignInDialog() {
         </div>
         <DialogFooter>
           <Button
+            className="font-thin"
             type="submit"
             onClick={() => {
               onSubmit()

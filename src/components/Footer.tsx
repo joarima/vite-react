@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 export function Footer() {
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-50 bg-white shadow-sm dark:bg-gray-950/90">
+    <nav className="fixed inset-x-0 bottom-0 z-50 bg-white shadow-sm dark:bg-gray-950/90 font-thin">
       <div className="w-full max-w-7xl mx-auto px-4">
         <div className="flex justify-between h-14 items-center">
           <div className="flex items-center">
@@ -11,19 +11,19 @@ export function Footer() {
           <nav className="flex gap-4">
             <Link
               to={'/'}
-              className="font-medium flex items-center text-sm transition-colors hover:underline"
+              className="flex items-center text-sm transition-colors hover:underline"
             >
               Home
             </Link>
             <Link
               to={'/about'}
-              className="font-medium flex items-center text-sm transition-colors hover:underline"
+              className="flex items-center text-sm transition-colors hover:underline"
             >
               About
             </Link>
             <Link
-              to={'#'}
-              className="font-medium flex items-center text-sm transition-colors hover:underline"
+              to={'/contact'}
+              className="flex items-center text-sm transition-colors hover:underline"
             >
               Contact
             </Link>
