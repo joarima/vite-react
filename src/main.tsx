@@ -1,3 +1,4 @@
+import { ThemeProvider } from '@/components/ThemeProvider'
 import { Toaster } from '@/components/ui/toaster'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
@@ -8,9 +9,11 @@ import './index.css'
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <AuthProvider>
-      <Router />
+      <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+        <Router />
 
-      <Toaster />
+        <Toaster />
+      </ThemeProvider>
     </AuthProvider>
   </React.StrictMode>
 )

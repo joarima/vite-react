@@ -14,7 +14,7 @@ const Router = () => {
   useEffect(() => {}, [])
 
   return (
-    <div className="my-14">
+    <div className="my-14 hidden-scrollbar">
       <BrowserRouter>
         <Header />
         <Routes>

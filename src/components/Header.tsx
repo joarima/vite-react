@@ -1,11 +1,16 @@
 import { Button } from '@/components/ui/button'
 import { supabase } from '@/lib/supabase'
 import { Link } from 'react-router-dom'
+import { ModeToggle } from './ModeToggle'
 import { SignInDialog } from './SignInDialog'
 import { useAuth } from './SupabaseAuthProvider'
+import { useTheme } from './ThemeProvider'
 // https://v0.dev/t/xYHqD5MkVkT
 export function Header() {
   const { user } = useAuth()
+  const { theme } = useTheme()
+
+  console.log(theme)
 
   const onLogout = async () => {
     // sign out request
@@ -24,9 +29,15 @@ export function Header() {
     <nav className="fixed inset-x-0 top-0 z-50 bg-white shadow-sm dark:bg-gray-950/90">
       <div className="w-full max-w-7xl mx-auto px-4">
         <div className="flex justify-between h-14 items-center">
-          <Link to={'/'} className="flex flex-shrink-0 items-center ml-8">
-            <img src="owl.png" className="h-12" />
-          </Link>
+          {theme == 'light' || theme == 'system' ? (
+            <Link to={'/'} className="flex flex-shrink-0 items-center ml-8">
+              <img src="owl.png" className="h-12" />
+            </Link>
+          ) : (
+            <Link to={'/'} className="flex flex-shrink-0 items-center ml-8">
+              <img src="owlwhite.png" className="h-12" />
+            </Link>
+          )}
           <nav className="flex gap-4">
             <Link
               to={'/'}
@@ -51,6 +62,7 @@ export function Header() {
             <Link to={'#'}>Contact</Link>
           </nav>
           <div className="flex items-center gap-4 mr-8">
+            <ModeToggle />
             {user ? (
               <Button
                 variant="outline"
