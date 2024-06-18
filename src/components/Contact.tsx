@@ -34,9 +34,7 @@ export function Contact() {
                   @joarima.bsky.social
                 </a>
               </h4>
-              <p className="text-sm">
-                The React Framework – created and maintained by @vercel.
-              </p>
+              <p className="text-sm">there are not many to say.</p>
             </div>
           </div>
         </HoverCardContent>
