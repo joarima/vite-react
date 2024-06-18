@@ -1,5 +1,6 @@
 import { PostEditor } from '@/components/PostEdtor'
 
+import { scrollTop } from '@/lib/scrollTop'
 import { PlateController, Value } from '@udecode/plate-common'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -69,6 +70,7 @@ export function Post() {
   useEffect(() => {
     fetch()
     fetchList()
+    scrollTop()
   }, [id])
 
   return (
