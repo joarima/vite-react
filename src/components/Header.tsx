@@ -10,8 +10,6 @@ export function Header() {
   const { user } = useAuth()
   const { theme } = useTheme()
 
-  console.log(theme)
-
   const onLogout = async () => {
     // sign out request
     try {
