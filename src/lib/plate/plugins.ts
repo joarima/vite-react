@@ -125,7 +125,7 @@ import { TableElement } from '@/components/plate-ui/table-element'
 import { TableRowElement } from '@/components/plate-ui/table-row-element'
 import { TodoListElement } from '@/components/plate-ui/todo-list-element'
 import { withDraggables } from '@/components/plate-ui/with-draggables'
-
+import { autoformatPlugin } from '@/lib/plate/autoformatPlugin'
 export const plugins = createPlugins(
   [
     createParagraphPlugin(),
@@ -204,14 +204,7 @@ export const plugins = createPlugins(
         },
       },
     }),
-    createAutoformatPlugin({
-      options: {
-        rules: [
-          // Usage: https://platejs.org/docs/autoformat
-        ],
-        enableUndoOnDelete: true,
-      },
-    }),
+    createAutoformatPlugin(autoformatPlugin),
     createBlockSelectionPlugin({
       options: {
         sizes: {
