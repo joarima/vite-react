@@ -442,7 +442,7 @@ export function PostEditor({ record, isNewPost = false }: EditorProps) {
                   )}
 
                   <Editor
-                    className="px-[10px] sm:px-[30px] md:px[50px] py-5 text-left"
+                    className="px-[25px] sm:px-[30px] md:px[50px] py-5 text-left"
                     autoFocus
                     focusRing={false}
                     variant="ghost"

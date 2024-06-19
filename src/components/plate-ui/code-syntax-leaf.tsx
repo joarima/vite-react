@@ -1,6 +1,5 @@
 'use client'
 
-
 import { withRef } from '@udecode/cn'
 import { useCodeSyntaxLeaf } from '@udecode/plate-code-block'
 import { PlateLeaf } from '@udecode/plate-common'
