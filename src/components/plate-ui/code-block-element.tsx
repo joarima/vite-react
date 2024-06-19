@@ -1,6 +1,5 @@
 'use client'
 
-
 import { cn, withRef } from '@udecode/cn'
 import { useCodeBlockElementState } from '@udecode/plate-code-block'
 import { PlateElement } from '@udecode/plate-common'

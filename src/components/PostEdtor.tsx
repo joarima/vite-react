@@ -57,6 +57,7 @@ import {
   ELEMENT_H4,
   ELEMENT_H5,
   ELEMENT_H6,
+  KEYS_HEADING,
   createHeadingPlugin,
 } from '@udecode/plate-heading'
 import { MARK_HIGHLIGHT, createHighlightPlugin } from '@udecode/plate-highlight'
@@ -257,7 +258,7 @@ const plugins = createPlugins(
             query: {
               start: true,
               end: true,
-              // allow: KEYS_HEADING,
+              allow: KEYS_HEADING,
             },
             relative: true,
             level: 1,
