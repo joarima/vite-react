@@ -5,7 +5,6 @@ import { cn, withRef } from '@udecode/cn'
 import { PlateElement, withHOC } from '@udecode/plate-common'
 import {
   ELEMENT_MEDIA_EMBED,
-  parseTwitterUrl,
   parseVideoUrl,
   useMediaState,
 } from '@udecode/plate-media'
@@ -14,6 +13,27 @@ import { ResizableProvider, useResizableStore } from '@udecode/plate-resizable'
 import { Caption, CaptionTextarea } from './caption'
 import { MediaPopover } from './media-popover'
 import { Resizable, ResizeHandle, mediaResizeHandleVariants } from './resizable'
+
+// @udecode_plate-media の parseTwitterUrl がエラーを出すのでここに移動して修正
+const twitterRegex = new RegExp(
+  '^https?:\\/\\/(twitter|x)\\.com\\/(?:#!\\/)?(\\w+)\\/status(es)?\\/(?<id>\\d+)'
+)
+const parseTwitterUrlCustom = (url?: string) => {
+  // url がないときは return（初期化時）
+  if (!url) return undefined
+  let _a, _b
+  if (url.match(twitterRegex)) {
+    return {
+      id:
+        (_b = (_a = twitterRegex.exec(url)) == null ? void 0 : _a.groups) ==
+        null
+          ? void 0
+          : _b.id,
+      provider: 'twitter',
+      url,
+    }
+  }
+}
 
 export const MediaEmbedElement = withHOC(
   ResizableProvider,
@@ -28,7 +48,7 @@ export const MediaEmbedElement = withHOC(
       readOnly,
       selected,
     } = useMediaState({
-      urlParsers: [parseTwitterUrl, parseVideoUrl],
+      urlParsers: [parseTwitterUrlCustom, parseVideoUrl],
     })
     const width = useResizableStore().get.width()
     const provider = embed?.provider
