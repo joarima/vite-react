@@ -1,6 +1,5 @@
 'use client'
 
-
 import type { DialogProps } from '@radix-ui/react-dialog'
 
 import { cn, createPrimitiveElement, withCn, withRef } from '@udecode/cn'
@@ -65,7 +64,7 @@ export const CommandSeparator = withCn(
 
 export const CommandItem = withCn(
   CommandPrimitive.Item,
-  'relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50'
+  'relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground'
 )
 
 export const CommandShortcut = withCn(
