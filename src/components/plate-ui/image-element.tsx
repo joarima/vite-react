@@ -1,4 +1,3 @@
-
 import { cn, withRef } from '@udecode/cn'
 import { PlateElement, withHOC } from '@udecode/plate-common'
 import { ELEMENT_IMAGE, Image, useMediaState } from '@udecode/plate-media'
@@ -12,12 +11,18 @@ export const ImageElement = withHOC(
   ResizableProvider,
   withRef<typeof PlateElement>(
     ({ children, className, nodeProps, ...props }, ref) => {
-      const { align = 'center', focused, readOnly, selected } = useMediaState()
+      const {
+        align = 'center',
+        focused,
+        readOnly,
+        selected,
+        url,
+      } = useMediaState()
 
       const width = useResizableStore().get.width()
 
       return (
-        <MediaPopover pluginKey={ELEMENT_IMAGE}>
+        <MediaPopover pluginKey={ELEMENT_IMAGE} url={url}>
           <PlateElement
             className={cn('py-2.5', className)}
             ref={ref}
