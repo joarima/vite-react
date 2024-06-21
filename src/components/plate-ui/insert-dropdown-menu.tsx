@@ -15,11 +15,18 @@ import { ELEMENT_PARAGRAPH } from '@udecode/plate-paragraph'
 
 import { Icons } from '@/components/icons'
 
-import { ELEMENT_CODE_BLOCK } from '@udecode/plate-code-block'
-import { ELEMENT_EXCALIDRAW } from '@udecode/plate-excalidraw'
-import { ELEMENT_LINK } from '@udecode/plate-link'
-import { ELEMENT_IMAGE, ELEMENT_MEDIA_EMBED } from '@udecode/plate-media'
-import { ELEMENT_TABLE } from '@udecode/plate-table'
+import {
+  ELEMENT_CODE_BLOCK,
+  insertEmptyCodeBlock,
+} from '@udecode/plate-code-block'
+import { ELEMENT_EXCALIDRAW, insertExcalidraw } from '@udecode/plate-excalidraw'
+import { ELEMENT_LINK, triggerFloatingLink } from '@udecode/plate-link'
+import {
+  ELEMENT_IMAGE,
+  ELEMENT_MEDIA_EMBED,
+  insertMedia,
+} from '@udecode/plate-media'
+import { ELEMENT_TABLE, insertTable } from '@udecode/plate-table'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -161,50 +168,46 @@ export function InsertDropdownMenu(props: DropdownMenuProps) {
                   key={type}
                   onSelect={() => {
                     switch (type) {
-                      // case ELEMENT_CODE_BLOCK: {
-                      //   insertEmptyCodeBlock(editor);
-                      //
-                      //   break;
-                      // }
-                      // case ELEMENT_IMAGE: {
-                      //   await insertMedia(editor, { type: ELEMENT_IMAGE });
-                      //
-                      //   break;
-                      // }
-                      // case ELEMENT_MEDIA_EMBED: {
-                      //   await insertMedia(editor, {
-                      //     type: ELEMENT_MEDIA_EMBED,
-                      //   });
-                      //
-                      //   break;
-                      // }
-                      // case 'ul':
-                      // case 'ol': {
-                      //   insertEmptyElement(editor, ELEMENT_PARAGRAPH, {
-                      //     select: true,
-                      //     nextBlock: true,
-                      //   });
-                      //
-                      //   if (settingsStore.get.checkedId(KEY_LIST_STYLE_TYPE)) {
-                      //     toggleIndentList(editor, {
-                      //       listStyleType: type === 'ul' ? 'disc' : 'decimal',
-                      //     });
-                      //   } else if (settingsStore.get.checkedId('list')) {
-                      //     toggleList(editor, { type });
-                      //   }
-                      //
-                      //   break;
-                      // }
-                      // case ELEMENT_TABLE: {
-                      //   insertTable(editor);
-                      //
-                      //   break;
-                      // }
-                      // case ELEMENT_LINK: {
-                      //   triggerFloatingLink(editor, { focused: true });
-                      //
-                      //   break;
-                      // }
+                      case ELEMENT_CODE_BLOCK: {
+                        insertEmptyCodeBlock(editor)
+
+                        break
+                      }
+                      case ELEMENT_IMAGE: {
+                        insertMedia(editor, { type: ELEMENT_IMAGE })
+
+                        break
+                      }
+                      case ELEMENT_MEDIA_EMBED: {
+                        insertMedia(editor, {
+                          type: ELEMENT_MEDIA_EMBED,
+                        })
+
+                        break
+                      }
+                      case 'ul':
+                      case 'ol': {
+                        insertEmptyElement(editor, ELEMENT_PARAGRAPH, {
+                          select: true,
+                          nextBlock: true,
+                        })
+
+                        break
+                      }
+                      case ELEMENT_TABLE: {
+                        insertTable(editor)
+
+                        break
+                      }
+                      case ELEMENT_LINK: {
+                        triggerFloatingLink(editor, { focused: true })
+
+                        break
+                      }
+                      case ELEMENT_EXCALIDRAW: {
+                        insertExcalidraw(editor)
+                        break
+                      }
                       default: {
                         insertEmptyElement(editor, type, {
                           nextBlock: true,
