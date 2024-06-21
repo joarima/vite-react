@@ -21,6 +21,7 @@ import { Checkbox, CheckedState } from './ui/checkbox'
 import { Skeleton } from './ui/skeleton'
 
 import { plugins } from '@/lib/plate/plugins'
+import { useNavigate } from 'react-router-dom'
 
 type EditorProps = {
   record?: PostRecord
@@ -28,6 +29,7 @@ type EditorProps = {
 }
 
 export function PostEditor({ record, isNewPost = false }: EditorProps) {
+  const navigate = useNavigate()
   const containerRef = useRef(null)
   const id = 'pEditor'
   const { user } = useAuth()
@@ -69,6 +71,9 @@ export function PostEditor({ record, isNewPost = false }: EditorProps) {
     } else {
       savePost(content, open).then(() => {
         setIsPosting(false)
+        if (isNewPost) {
+          navigate('/')
+        }
       })
     }
   }
