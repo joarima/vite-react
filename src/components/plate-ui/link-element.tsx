@@ -1,7 +1,6 @@
-
 import { cn, withRef } from '@udecode/cn'
 import { PlateElement, useElement } from '@udecode/plate-common'
-import { type TLinkElement, useLink } from '@udecode/plate-link'
+import { useLink, type TLinkElement } from '@udecode/plate-link'
 
 export const LinkElement = withRef<typeof PlateElement>(
   ({ children, className, ...props }, ref) => {
@@ -19,7 +18,9 @@ export const LinkElement = withRef<typeof PlateElement>(
         {...(linkProps as any)}
         {...props}
       >
-        <a>{children}</a>
+        <a target="_blank" rel="noopener noreferrer">
+          {children}
+        </a>
       </PlateElement>
     )
   }
