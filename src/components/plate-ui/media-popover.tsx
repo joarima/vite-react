@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import {
   isSelectionExpanded,
@@ -21,6 +21,7 @@ import { useReadOnly, useSelected } from 'slate-react'
 import { Icons } from '@/components/icons'
 
 import { dataURLtoFile } from '@/lib/image'
+import { LoaderCircle } from 'lucide-react'
 import { useToast } from '../ui/use-toast'
 import { Button, buttonVariants } from './button'
 import { CaptionButton } from './caption'
@@ -47,6 +48,8 @@ export function MediaPopover({ children, pluginKey, url }: MediaPopoverProps) {
   const isOpen = !readOnly && selected && selectionCollapsed
   const isEditing = useFloatingMediaSelectors().isEditing()
 
+  const [isUploading, setIsUploading] = useState<boolean>(false)
+
   useEffect(() => {
     if (!isOpen && isEditing) {
       floatingMediaActions.isEditing(false)
@@ -60,6 +63,7 @@ export function MediaPopover({ children, pluginKey, url }: MediaPopoverProps) {
   const editor = useEditorRef()
 
   const upload = async () => {
+    setIsUploading(true)
     if (!url) {
       toast({
         title: 'no file url.',
@@ -72,6 +76,7 @@ export function MediaPopover({ children, pluginKey, url }: MediaPopoverProps) {
       toast({
         title: 'invalid file.',
       })
+      setIsUploading(false)
       return
     }
     // get signed url
@@ -90,6 +95,7 @@ export function MediaPopover({ children, pluginKey, url }: MediaPopoverProps) {
         title: 'signed url fetch error.',
         description: String(response),
       })
+      setIsUploading(false)
       return
     }
 
@@ -111,6 +117,7 @@ export function MediaPopover({ children, pluginKey, url }: MediaPopoverProps) {
         title: 's3 upload error.',
         description: String(uploadResponse),
       })
+      setIsUploading(false)
       return
     }
 
@@ -122,6 +129,7 @@ export function MediaPopover({ children, pluginKey, url }: MediaPopoverProps) {
     })
     // reset
     floatingMediaActions.reset()
+    setIsUploading(false)
   }
 
   if (readOnly) return <>{children}</>
@@ -165,7 +173,12 @@ export function MediaPopover({ children, pluginKey, url }: MediaPopoverProps) {
             <Button size="sms" variant="ghost" {...buttonProps}>
               <Icons.delete className="size-4" />
             </Button>
-            {isImage && (
+            {isImage && isUploading && (
+              <Button variant="ghost" className="" disabled>
+                <LoaderCircle className="animate-spin" />
+              </Button>
+            )}
+            {isImage && !isUploading && (
               <Button
                 variant="ghost"
                 className=""
