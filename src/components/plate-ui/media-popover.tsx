@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 
 import {
   isSelectionExpanded,
@@ -20,8 +20,8 @@ import { useReadOnly, useSelected } from 'slate-react'
 
 import { Icons } from '@/components/icons'
 
-import { toast } from '@/components/ui/use-toast'
 import { dataURLtoFile } from '@/lib/image'
+import { useToast } from '../ui/use-toast'
 import { Button, buttonVariants } from './button'
 import { CaptionButton } from './caption'
 import { inputVariants } from './input'
@@ -35,6 +35,7 @@ export interface MediaPopoverProps {
 }
 
 export function MediaPopover({ children, pluginKey, url }: MediaPopoverProps) {
+  const { toast } = useToast()
   const readOnly = useReadOnly()
   const selected = useSelected()
   const isImage = pluginKey === ELEMENT_IMAGE
@@ -56,12 +57,9 @@ export function MediaPopover({ children, pluginKey, url }: MediaPopoverProps) {
   const element = useElement()
   const { props: buttonProps } = useRemoveNodeButton({ element })
 
-  const [embedUrl, setEmbedUrl] = useState<string | undefined>(
-    isImage ? 'https://cdn.candycode.com/jotai/jotai-mascot.png' : undefined
-  )
   const editor = useEditorRef()
 
-  const upload = () => {
+  const upload = async () => {
     if (!url) {
       toast({
         title: 'no file url.',
@@ -76,14 +74,51 @@ export function MediaPopover({ children, pluginKey, url }: MediaPopoverProps) {
       })
       return
     }
-    // const s3Url = s3 url 取得
-    console.log(file)
+    // get signed url
+    const response = await fetch(
+      import.meta.env.VITE_AWS_API_URL + '/api/s3-upload',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ filename: file.name, contentType: file.type }),
+      }
+    )
+    if (!response.ok) {
+      toast({
+        title: 'signed url fetch error.',
+        description: String(response),
+      })
+      return
+    }
+
+    // s3 upload
+    const { url: s3Url, fields } = await response.json()
+    const formData = new FormData()
+    Object.entries(fields).forEach(([key, value]) => {
+      formData.append(key, value as string)
+    })
+    formData.append('file', file)
+
+    const uploadResponse = await fetch(s3Url, {
+      method: 'POST',
+      body: formData,
+    })
+
+    if (!uploadResponse.ok) {
+      toast({
+        title: 's3 upload error.',
+        description: String(uploadResponse),
+      })
+      return
+    }
 
     // https://github.dev/udecode/plate/blob/main/packages/media/src/media/FloatingMedia/FloatingMediaUrlInput.tsx
     // FloatingMediaPrimitive.UrlInput で Enter を押した時の処理と同様
     // set
     setNodes<TMediaElement>(editor, {
-      url: 'https://cdn.candycode.com/jotai/jotai-mascot.png',
+      url: import.meta.env.VITE_AWS_S3_OBJ_URL_BASE + file.name,
     })
     // reset
     floatingMediaActions.reset()
