@@ -12,7 +12,6 @@ import { FloatingToolbarButtons } from '@/components/plate-ui/floating-toolbar-b
 import { TooltipProvider } from '@/components/plate-ui/tooltip'
 import { Button } from '@/components/ui/button'
 import { format } from '@/lib/date'
-import { savePost, updatePost } from '@/lib/posts'
 import { PostRecord } from '@/types/Editor'
 import { LoaderCircle } from 'lucide-react'
 import { useMemo, useRef, useState } from 'react'
@@ -21,7 +20,9 @@ import { Checkbox, CheckedState } from './ui/checkbox'
 import { Skeleton } from './ui/skeleton'
 
 import { plugins } from '@/lib/plate/plugins'
+import { savePost, updatePost } from '@/lib/posts'
 import { useNavigate } from 'react-router-dom'
+import { useToast } from './ui/use-toast'
 
 type EditorProps = {
   record?: PostRecord
@@ -30,6 +31,7 @@ type EditorProps = {
 
 export function PostEditor({ record, isNewPost = false }: EditorProps) {
   const navigate = useNavigate()
+  const { toast } = useToast()
   const containerRef = useRef(null)
   const id = 'pEditor'
   const { user } = useAuth()
@@ -66,16 +68,21 @@ export function PostEditor({ record, isNewPost = false }: EditorProps) {
 
     if (postId) {
       updatePost(postId, content, open).then(() => {
-        setIsPosting(false)
+        toast({
+          title: 'post updated.',
+        })
       })
     } else {
       savePost(content, open).then(() => {
-        setIsPosting(false)
+        toast({
+          title: 'new post created.',
+        })
         if (isNewPost) {
           navigate('/')
         }
       })
     }
+    setIsPosting(false)
   }
 
   return (

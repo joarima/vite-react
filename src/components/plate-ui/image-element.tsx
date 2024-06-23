@@ -3,9 +3,11 @@ import { PlateElement, withHOC } from '@udecode/plate-common'
 import { ELEMENT_IMAGE, Image, useMediaState } from '@udecode/plate-media'
 import { ResizableProvider, useResizableStore } from '@udecode/plate-resizable'
 
-import { Caption, CaptionTextarea } from './caption'
+import { Caption } from './caption'
 import { MediaPopover } from './media-popover'
 import { Resizable, ResizeHandle, mediaResizeHandleVariants } from './resizable'
+
+import { CaptionTextareaSimple } from '@/components/patch/CaptionTextArea'
 
 export const ImageElement = withHOC(
   ResizableProvider,
@@ -58,8 +60,8 @@ export const ImageElement = withHOC(
               </Resizable>
 
               <Caption align={align} style={{ width }}>
-                <CaptionTextarea
-                  placeholder="Write a caption..."
+                <CaptionTextareaSimple
+                  placeholder={'Write a caption...'}
                   readOnly={readOnly}
                 />
               </Caption>
