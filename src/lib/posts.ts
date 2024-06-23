@@ -5,13 +5,13 @@ export const fetchPostList = async (isLoggedIn: boolean) => {
   if (isLoggedIn) {
     const postItems = await supabase
       .from('post')
-      .select('id')
+      .select('id, order')
       .order(' order ', { ascending: false })
     return postItems.data ?? []
   } else {
     const postItems = await supabase
       .from('post')
-      .select('id')
+      .select('id, order')
       .eq('is_open', true)
       .order(' order ', { ascending: false })
     return postItems.data ?? []

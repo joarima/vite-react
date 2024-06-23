@@ -24,6 +24,7 @@ export function Post() {
         const listData = rs.map((it) => {
           return {
             id: it.id,
+            order: it.order,
           }
         })
         setPosts(listData)
@@ -80,7 +81,7 @@ export function Post() {
           <PostEditor record={record} />
         </PlateController>
       </section>
-      <Pagination currentId={id} posts={posts} record={record} />
+      {record && <Pagination currentId={id} posts={posts} record={record} />}
     </div>
   )
 }
