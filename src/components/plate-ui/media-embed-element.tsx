@@ -10,7 +10,8 @@ import {
 } from '@udecode/plate-media'
 import { ResizableProvider, useResizableStore } from '@udecode/plate-resizable'
 
-import { Caption, CaptionTextarea } from './caption'
+import { CaptionTextareaSimple } from '../patch/CaptionTextArea'
+import { Caption } from './caption'
 import { MediaPopover } from './media-popover'
 import { Resizable, ResizeHandle, mediaResizeHandleVariants } from './resizable'
 
@@ -140,7 +141,10 @@ export const MediaEmbedElement = withHOC(
             </Resizable>
 
             <Caption align={align} style={{ width }}>
-              <CaptionTextarea placeholder="Write a caption..." />
+              <CaptionTextareaSimple
+                placeholder={'Write a caption...'}
+                readOnly={readOnly}
+              />
             </Caption>
           </figure>
 
