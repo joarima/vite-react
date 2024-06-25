@@ -18,6 +18,14 @@ export const fetchPostList = async (isLoggedIn: boolean) => {
   }
 }
 
+export const search = async (searchWord: string) => {
+  const { data, error } = await supabase.rpc('find_content_admin', {
+    keywords: searchWord,
+  })
+  if (error) throw new Error()
+  return data
+}
+
 export const fetchPost = async (id?: string) => {
   if (!id) {
     const post = await supabase

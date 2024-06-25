@@ -25,6 +25,7 @@ export function Search({ setSearchWord }: Props) {
   const onSearch = () => {
     setSearchWord(word)
     setWord(undefined)
+    setDialogOpen(false)
   }
 
   return (

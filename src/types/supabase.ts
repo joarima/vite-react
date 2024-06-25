@@ -41,7 +41,24 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      find_content: {
+        Args: {
+          keywords: string
+        }
+        Returns: {
+          id: string
+          order: number
+        }[]
+      }
+      find_content_admin: {
+        Args: {
+          keywords: string
+        }
+        Returns: {
+          id: string
+          order: number
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
