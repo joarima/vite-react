@@ -93,6 +93,7 @@ export function Post({ searchWord }: Props) {
             title: 'no result found.',
           })
           navigate('/')
+          return
         }
         setPosts(listData)
         fetch(listData[0].id)
