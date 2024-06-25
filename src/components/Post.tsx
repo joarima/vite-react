@@ -10,7 +10,11 @@ import { Pagination } from './Pagination'
 import { useAuth } from './SupabaseAuthProvider'
 import { useToast } from './ui/use-toast'
 
-export function Post() {
+type Props = {
+  searchWord?: string
+}
+
+export function Post({ searchWord }: Props) {
   const { user } = useAuth()
   const isAdmin = !!user
   const { toast } = useToast()
@@ -76,7 +80,10 @@ export function Post() {
 
   return (
     <div className="flex-1">
-      <section className="w-full grid items-center gap-6 pb-8 pt-6 md:py-10">
+      <section className="w-full grid items-center gap-1 pb-8 pt-6 md:py-10">
+        <p className="w-1/3 mx-auto text-center text-2xl">
+          &quot;{searchWord}&quot;
+        </p>
         <PlateController>
           <PostEditor record={record} />
         </PlateController>

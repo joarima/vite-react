@@ -1,6 +1,6 @@
 import { About } from '@/components/About'
 import { Post } from '@/components/Post'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { Contact } from './Contact'
 import { Footer } from './Footer'
@@ -12,12 +12,14 @@ const Router = () => {
   const { user } = useAuth()
   const isAdmin = !!user
 
+  const [searchWord, setSearchWord] = useState<string | undefined>(undefined)
+
   useEffect(() => {}, [])
 
   return (
     <div className="my-14 hidden-scrollbar !font-sans !font-thin">
       <BrowserRouter>
-        <Header />
+        <Header setSearchWord={setSearchWord} />
         <Routes>
           <Route
             path="/new"
@@ -25,7 +27,7 @@ const Router = () => {
           />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/:id?" element={<Post />} />
+          <Route path="/:id?" element={<Post searchWord={searchWord} />} />
         </Routes>
         <Footer />
       </BrowserRouter>

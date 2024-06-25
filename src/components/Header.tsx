@@ -2,11 +2,17 @@ import { Button } from '@/components/ui/button'
 import { supabase } from '@/lib/supabase'
 import { Link } from 'react-router-dom'
 import { ModeToggle } from './ModeToggle'
+import { Search } from './Search'
 import { SignInDialog } from './SignInDialog'
 import { useAuth } from './SupabaseAuthProvider'
 import { useTheme } from './ThemeProvider'
+
+type Props = {
+  setSearchWord: React.Dispatch<React.SetStateAction<string | undefined>>
+}
+
 // https://v0.dev/t/xYHqD5MkVkT
-export function Header() {
+export function Header({ setSearchWord }: Props) {
   const { user } = useAuth()
   const { theme } = useTheme()
 
@@ -68,6 +74,7 @@ export function Header() {
             </Link>
           </nav>
           <div className="flex items-center gap-4 mr-[5px] sm:mr-8">
+            <Search setSearchWord={setSearchWord} />
             <ModeToggle />
             {user ? (
               <Button
