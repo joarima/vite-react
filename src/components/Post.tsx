@@ -54,7 +54,9 @@ export function Post({ searchWord }: Props) {
         createdAt: res.created_at,
         updatedAt: res.updated_at,
       })
-      navigate(`/${res.id}`)
+      if (searchWord) {
+        navigate(`/${res.id}`)
+      }
     }
   }
 
