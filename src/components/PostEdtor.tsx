@@ -66,10 +66,6 @@ export function PostEditor({ record, isNewPost = false }: EditorProps) {
       return
     }
 
-    console.log(content)
-    setIsPosting(false)
-    return
-
     if (postId) {
       updatePost(postId, content, open).then(() => {
         toast({

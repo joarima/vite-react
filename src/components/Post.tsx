@@ -1,10 +1,11 @@
 import { PostEditor } from '@/components/PostEdtor'
 
 import { scrollTop } from '@/lib/scrollTop'
+
 import { PlateController, Value } from '@udecode/plate-common'
-import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { fetchPost, fetchPostAdmin, fetchPostList } from '../lib/posts'
+import { useMemo, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { fetchPostAdmin, fetchPostList, search } from '../lib/posts'
 import { PostFetchResult, PostListData, PostRecord } from '../types/Editor'
 import { Pagination } from './Pagination'
 import { useAuth } from './SupabaseAuthProvider'
@@ -15,6 +16,7 @@ type Props = {
 }
 
 export function Post({ searchWord }: Props) {
+  const navigate = useNavigate()
   const { user } = useAuth()
   const isAdmin = !!user
   const { toast } = useToast()
@@ -25,13 +27,15 @@ export function Post({ searchWord }: Props) {
   const fetchList = async () => {
     try {
       await fetchPostList(isAdmin).then((rs) => {
-        const listData = rs.map((it) => {
+        const listData = rs.map((it, index) => {
           return {
             id: it.id,
             order: it.order,
+            index: index + 1,
           }
         })
         setPosts(listData)
+        fetch(listData[0].id)
       })
     } catch (error) {
       console.log(error)
@@ -50,18 +54,21 @@ export function Post({ searchWord }: Props) {
         createdAt: res.created_at,
         updatedAt: res.updated_at,
       })
+      navigate(`/${res.id}`)
     }
   }
 
-  const fetch = async () => {
+  const fetch = async (postId?: string) => {
     try {
-      if (isAdmin) {
-        const res = await fetchPostAdmin(id)
-        resToRecord(res)
-      } else {
-        const res = await fetchPost(id)
-        resToRecord(res)
+      const res = await fetchPostAdmin(postId)
+      if (!res) {
+        toast({
+          title: 'no such id.',
+          description: `there is no post with id: ${id}.`,
+        })
+        return
       }
+      resToRecord(res)
     } catch (error) {
       console.log(error)
       toast({
@@ -71,19 +78,51 @@ export function Post({ searchWord }: Props) {
     }
   }
 
-  // react-router-dom の Link で移動した時に発火しないので id を使っている
-  useEffect(() => {
-    fetch()
-    fetchList()
+  const onSearch = async () => {
+    if (searchWord) {
+      await search(searchWord).then((rs) => {
+        const listData = rs.map((it, index) => {
+          return {
+            id: it.id,
+            order: it.order,
+            index: index + 1,
+          }
+        })
+        if (listData.length === 0) {
+          toast({
+            title: 'no result found.',
+          })
+          navigate('/')
+        }
+        setPosts(listData)
+        fetch(listData[0].id)
+      })
+    }
+  }
+
+  // init or search
+  useMemo(() => {
+    if (searchWord) {
+      onSearch()
+    } else {
+      fetchList()
+    }
+  }, [searchWord])
+
+  //
+  useMemo(() => {
+    fetch(id)
     scrollTop()
   }, [id])
 
   return (
     <div className="flex-1">
       <section className="w-full grid items-center gap-1 pb-8 pt-6 md:py-10">
-        <p className="w-1/3 mx-auto text-center text-2xl">
-          &quot;{searchWord}&quot;
-        </p>
+        {searchWord && (
+          <p className="w-1/3 mx-auto text-center text-2xl">
+            &quot;{searchWord}&quot;
+          </p>
+        )}
         <PlateController>
           <PostEditor record={record} />
         </PlateController>

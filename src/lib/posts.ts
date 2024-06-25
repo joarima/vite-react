@@ -23,7 +23,7 @@ export const search = async (searchWord: string) => {
     keywords: searchWord,
   })
   if (error) throw new Error()
-  return data
+  return data ?? []
 }
 
 export const fetchPost = async (id?: string) => {

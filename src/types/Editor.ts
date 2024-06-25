@@ -24,4 +24,5 @@ export type PostRecord = {
 export type PostListData = {
   id: string
   order: number
+  index: number
 }

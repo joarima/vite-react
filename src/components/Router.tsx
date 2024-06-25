@@ -1,6 +1,6 @@
 import { About } from '@/components/About'
 import { Post } from '@/components/Post'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { Contact } from './Contact'
 import { Footer } from './Footer'
@@ -13,8 +13,6 @@ const Router = () => {
   const isAdmin = !!user
 
   const [searchWord, setSearchWord] = useState<string | undefined>(undefined)
-
-  useEffect(() => {}, [])
 
   return (
     <div className="my-14 hidden-scrollbar !font-sans !font-thin">

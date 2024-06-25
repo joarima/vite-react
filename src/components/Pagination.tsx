@@ -25,10 +25,6 @@ export function Pagination({
   const currentPostIndex = posts.findIndex((p) => p.id === record?.id)
   const currentPostNumber = currentPostIndex + 1
   const totalPostNumber = posts.length
-  const indexArray = Array.from(
-    { length: totalPostNumber },
-    (_, i) => totalPostNumber - i
-  )
 
   const showLeftEllipsis = currentPostNumber - 1 > totalPagesToDisplay / 2
   const showRightEllipsis =
@@ -86,7 +82,7 @@ export function Pagination({
           href={`/${post.id}`}
           isActive={(!currentId && index === 0) || currentId === post.id}
         >
-          {indexArray[post.order - 1]}
+          {post.index}
         </PaginationLink>
       </PaginationItem>
     )

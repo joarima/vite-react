@@ -29,32 +29,37 @@ export function Header({ setSearchWord }: Props) {
     }
   }
 
+  const resetSearch = () => {
+    setSearchWord(undefined)
+  }
+
   return (
     <nav className="fixed inset-x-0 top-0 z-50 bg-white shadow-sm dark:bg-gray-950/90 font-sans font-thin h-16">
       <div className="w-full max-w-7xl mx-auto">
         <div className="flex justify-between h-16 items-center">
-          {theme == 'light' || theme == 'system' ? (
-            <Link
-              to={'/'}
-              className="flex flex-shrink-0 items-center ml-[5px] sm:ml-8"
-            >
+          <Link
+            to={'/'}
+            className="flex flex-shrink-0 items-center ml-[5px] sm:ml-8"
+            onClick={resetSearch}
+          >
+            {theme == 'light' || theme == 'system' ? (
               <img src="owl.png" className="h-12" />
-            </Link>
-          ) : (
-            <Link to={'/'} className="flex flex-shrink-0 items-center ml-8">
+            ) : (
               <img src="owlwhite.png" className="h-12" />
-            </Link>
-          )}
+            )}
+          </Link>
           <nav className="flex gap-4">
             <Link
               to={'/'}
               className="flex items-center text-sm transition-colors hover:underline"
+              onClick={resetSearch}
             >
               Home
             </Link>
             <Link
               to={'/about'}
               className="flex items-center text-sm transition-colors hover:underline"
+              onClick={resetSearch}
             >
               About
             </Link>
@@ -62,6 +67,7 @@ export function Header({ setSearchWord }: Props) {
               <Link
                 to={'/new'}
                 className="flex items-center text-sm transition-colors hover:underline"
+                onClick={resetSearch}
               >
                 New
               </Link>
@@ -69,6 +75,7 @@ export function Header({ setSearchWord }: Props) {
             <Link
               to={'/contact'}
               className="flex items-center text-sm transition-colors hover:underline"
+              onClick={resetSearch}
             >
               Contact
             </Link>

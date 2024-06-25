@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Search as SearchIcon } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 type Props = {
   setSearchWord: React.Dispatch<React.SetStateAction<string | undefined>>
@@ -18,14 +18,18 @@ export function Search({ setSearchWord }: Props) {
   const [dialogOpen, setDialogOpen] = useState<boolean>(false)
   const [word, setWord] = useState<string | undefined>(undefined)
 
-  useEffect(() => {
-    console.log(word)
-  }, [word])
-
   const onSearch = () => {
     setSearchWord(word)
     setWord(undefined)
     setDialogOpen(false)
+  }
+
+  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key == 'Enter') {
+      setSearchWord(word)
+      setWord(undefined)
+      setDialogOpen(false)
+    }
   }
 
   return (
@@ -57,6 +61,7 @@ export function Search({ setSearchWord }: Props) {
               onChange={(e) => {
                 setWord(e.target.value)
               }}
+              onKeyDown={onKeyDown}
             />
             <Button
               className="font-thin"
