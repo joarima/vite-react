@@ -1,6 +1,9 @@
+import { searchAtom } from '@/atoms/SearchAtom'
+import { useSetAtom } from 'jotai'
 import { Link } from 'react-router-dom'
 
 export function Footer() {
+  const setSearchWord = useSetAtom(searchAtom)
   return (
     <nav className="fixed inset-x-0 bottom-0 z-50 bg-white shadow-sm dark:bg-gray-950/90 font-thin">
       <div className="w-full max-w-7xl mx-auto px-4">
@@ -12,6 +15,9 @@ export function Footer() {
             <Link
               to={'/'}
               className="flex items-center text-sm transition-colors hover:underline"
+              onClick={() => {
+                setSearchWord(undefined)
+              }}
             >
               Home
             </Link>

@@ -112,7 +112,7 @@ export function Post() {
     }
   }, [searchWord])
 
-  //
+  // fetch page data
   useMemo(() => {
     fetch(id)
     scrollTop()
