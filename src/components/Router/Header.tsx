@@ -1,7 +1,6 @@
 import { searchAtom } from '@/atoms/SearchAtom'
-import { useAuth } from '@/components/SupabaseAuthProvider'
-
 import { Button } from '@/components/ui/button'
+import { useAuth } from '@/lib/auth'
 import { supabase } from '@/lib/supabase'
 import { useTheme } from '@/lib/theme'
 import { useSetAtom } from 'jotai'

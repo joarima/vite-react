@@ -15,10 +15,10 @@ import { format } from '@/lib/date'
 import { PostRecord } from '@/types/Editor'
 import { LoaderCircle } from 'lucide-react'
 import { useRef } from 'react'
-import { useAuth } from '../SupabaseAuthProvider'
 import { Checkbox } from '../ui/checkbox'
 import { Skeleton } from '../ui/skeleton'
 
+import { useAuth } from '@/lib/auth'
 import { saveDraft } from '@/lib/editor'
 import { plugins } from '@/lib/plate/plugins'
 import { usePostEditor } from './PostEditor.hooks'
@@ -34,8 +34,7 @@ export function PostEditor({ record, isNewPost = false }: EditorProps) {
 
   const containerRef = useRef(null)
   const id = 'pEditor'
-  const { user } = useAuth()
-  const isAdmin = !!user
+  const { isLoggedIn } = useAuth()
 
   const postId = record?.id
 
@@ -47,7 +46,7 @@ export function PostEditor({ record, isNewPost = false }: EditorProps) {
             {format(record!.createdAt)}
           </p>
         )}
-        {isAdmin && (
+        {isLoggedIn && (
           <div className="items-top flex space-x-2">
             <Checkbox
               id="terms1"
@@ -73,7 +72,7 @@ export function PostEditor({ record, isNewPost = false }: EditorProps) {
               <Plate
                 id={id}
                 key={postId}
-                readOnly={!isAdmin}
+                readOnly={!isLoggedIn}
                 plugins={plugins}
                 initialValue={initialValue}
                 onChange={(state) => {
@@ -91,7 +90,7 @@ export function PostEditor({ record, isNewPost = false }: EditorProps) {
                     '[&_.slate-start-area-left]:!w-[64px] [&_.slate-start-area-right]:!w-[64px] [&_.slate-start-area-top]:!h-4'
                   )}
                 >
-                  {isAdmin && (
+                  {isLoggedIn && (
                     <FixedToolbar>
                       <FixedToolbarButtons />
                     </FixedToolbar>
@@ -104,7 +103,7 @@ export function PostEditor({ record, isNewPost = false }: EditorProps) {
                     variant="ghost"
                     size="md"
                   />
-                  {isAdmin && (
+                  {isLoggedIn && (
                     <FloatingToolbar>
                       <FloatingToolbarButtons />
                     </FloatingToolbar>
@@ -118,12 +117,12 @@ export function PostEditor({ record, isNewPost = false }: EditorProps) {
         <Skeleton className="h-[125px] w-full py-5 rounded-xl" />
       )}
 
-      {isAdmin && isPosting && (
+      {isLoggedIn && isPosting && (
         <Button className="w-full mt-2.5" disabled>
           <LoaderCircle className="animate-spin" />
         </Button>
       )}
-      {isAdmin && !isPosting && (
+      {isLoggedIn && !isPosting && (
         <Button
           className="w-full mt-2.5"
           onClick={() => {

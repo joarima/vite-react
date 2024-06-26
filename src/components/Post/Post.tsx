@@ -1,15 +1,14 @@
 import { PostEditor } from '@/components/Post/PostEdtor'
 
-import { useAuth } from '@/components/SupabaseAuthProvider'
+import { useAuth } from '@/lib/auth'
 import { PlateController } from '@udecode/plate-common'
 import { Pagination } from './Pagination'
 import { usePost } from './Post.hooks'
 
 export function Post() {
-  const { user } = useAuth()
-  const isAdmin = !!user
+  const { isLoggedIn } = useAuth()
 
-  const { id, searchWord, record, posts } = usePost(isAdmin)
+  const { id, searchWord, record, posts } = usePost(isLoggedIn)
 
   return (
     <div className="flex-1">

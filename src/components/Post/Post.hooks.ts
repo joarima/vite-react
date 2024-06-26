@@ -8,7 +8,7 @@ import { useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useToast } from '../ui/use-toast'
 
-export function usePost(isAdmin: boolean) {
+export function usePost(isLoggedIn: boolean) {
   const navigate = useNavigate()
   const { toast } = useToast()
   const { id } = useParams<{ id: string }>()
@@ -19,7 +19,7 @@ export function usePost(isAdmin: boolean) {
 
   const fetchList = async () => {
     try {
-      await fetchPostList(isAdmin).then((rs) => {
+      await fetchPostList(isLoggedIn).then((rs) => {
         const listData = rs.map((it, index) => {
           return {
             id: it.id,
