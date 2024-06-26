@@ -1,8 +1,9 @@
 import { searchAtom } from '@/atoms/SearchAtom'
 import { useAuth } from '@/components/SupabaseAuthProvider'
-import { useTheme } from '@/components/ThemeProvider'
+
 import { Button } from '@/components/ui/button'
 import { supabase } from '@/lib/supabase'
+import { useTheme } from '@/lib/theme'
 import { useSetAtom } from 'jotai'
 import { Link } from 'react-router-dom'
 import { ModeToggle } from './ModeToggle'
