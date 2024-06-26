@@ -1,10 +1,9 @@
 'use client'
 
-
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
 import { cn, withRef } from '@udecode/cn'
 
-import { Icons } from '@/components/icons'
+import { Icons } from '@/components/plate-ui/icons'
 
 export const Checkbox = withRef<typeof CheckboxPrimitive.Root>(
   ({ className, ...props }, ref) => (

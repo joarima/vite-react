@@ -1,24 +1,23 @@
 'use client'
 
-
 import { cn } from '@udecode/cn'
 import { useFormInputProps } from '@udecode/plate-common'
 import {
-  type UseVirtualFloatingOptions,
   flip,
   offset,
+  type UseVirtualFloatingOptions,
 } from '@udecode/plate-floating'
 import {
   FloatingLinkUrlInput,
-  type LinkFloatingToolbarState,
   LinkOpenButton,
   useFloatingLinkEdit,
   useFloatingLinkEditState,
   useFloatingLinkInsert,
   useFloatingLinkInsertState,
+  type LinkFloatingToolbarState,
 } from '@udecode/plate-link'
 
-import { Icons } from '@/components/icons'
+import { Icons } from '@/components/plate-ui/icons'
 
 import { buttonVariants } from './button'
 import { inputVariants } from './input'

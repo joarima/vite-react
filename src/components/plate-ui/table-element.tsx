@@ -1,4 +1,3 @@
-
 import type * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
 
 import { PopoverAnchor } from '@radix-ui/react-popover'
@@ -13,7 +12,6 @@ import {
   withHOC,
 } from '@udecode/plate-common'
 import {
-  type TTableElement,
   TableProvider,
   mergeTableCells,
   unmergeTableCells,
@@ -21,10 +19,11 @@ import {
   useTableElement,
   useTableElementState,
   useTableMergeState,
+  type TTableElement,
 } from '@udecode/plate-table'
 import { useReadOnly, useSelected } from 'slate-react'
 
-import { Icons, iconVariants } from '@/components/icons'
+import { Icons, iconVariants } from '@/components/plate-ui/icons'
 
 import { Button } from './button'
 import {

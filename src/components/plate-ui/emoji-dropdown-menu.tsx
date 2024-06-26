@@ -1,27 +1,27 @@
-import React from 'react';
+import React from 'react'
 
 import {
-  type EmojiDropdownMenuOptions,
   useEmojiDropdownMenuState,
-} from '@udecode/plate-emoji';
+  type EmojiDropdownMenuOptions,
+} from '@udecode/plate-emoji'
 
-import { Icons } from '@/components/icons';
+import { Icons } from '@/components/plate-ui/icons'
 
-import { emojiCategoryIcons, emojiSearchIcons } from './emoji-icons';
-import { EmojiPicker } from './emoji-picker';
-import { EmojiToolbarDropdown } from './emoji-toolbar-dropdown';
-import { ToolbarButton } from './toolbar';
+import { emojiCategoryIcons, emojiSearchIcons } from './emoji-icons'
+import { EmojiPicker } from './emoji-picker'
+import { EmojiToolbarDropdown } from './emoji-toolbar-dropdown'
+import { ToolbarButton } from './toolbar'
 
 type EmojiDropdownMenuProps = {
-  options?: EmojiDropdownMenuOptions;
-} & React.ComponentPropsWithoutRef<typeof ToolbarButton>;
+  options?: EmojiDropdownMenuOptions
+} & React.ComponentPropsWithoutRef<typeof ToolbarButton>
 
 export function EmojiDropdownMenu({
   options,
   ...props
 }: EmojiDropdownMenuProps) {
   const { emojiPickerState, isOpen, setIsOpen } =
-    useEmojiDropdownMenuState(options);
+    useEmojiDropdownMenuState(options)
 
   return (
     <EmojiToolbarDropdown
@@ -44,5 +44,5 @@ export function EmojiDropdownMenu({
         settings={options?.settings}
       />
     </EmojiToolbarDropdown>
-  );
+  )
 }

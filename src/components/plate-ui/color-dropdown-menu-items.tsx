@@ -1,26 +1,26 @@
-'use client';
+'use client'
 
-import React from 'react';
+import React from 'react'
 
-import type { DropdownMenuItemProps } from '@radix-ui/react-dropdown-menu';
+import type { DropdownMenuItemProps } from '@radix-ui/react-dropdown-menu'
 
-import { cn } from '@udecode/cn';
+import { cn } from '@udecode/cn'
 
-import { Icons } from '@/components/icons';
+import { Icons } from '@/components/plate-ui/icons'
 
-import type { TColor } from './color-dropdown-menu';
+import type { TColor } from './color-dropdown-menu'
 
-import { buttonVariants } from './button';
-import { DropdownMenuItem } from './dropdown-menu';
-import { Tooltip, TooltipContent, TooltipTrigger } from './tooltip';
+import { buttonVariants } from './button'
+import { DropdownMenuItem } from './dropdown-menu'
+import { Tooltip, TooltipContent, TooltipTrigger } from './tooltip'
 
 type ColorDropdownMenuItemProps = {
-  isBrightColor: boolean;
-  isSelected: boolean;
-  name?: string;
-  updateColor: (color: string) => void;
-  value: string;
-} & DropdownMenuItemProps;
+  isBrightColor: boolean
+  isSelected: boolean
+  name?: string
+  updateColor: (color: string) => void
+  value: string
+} & DropdownMenuItemProps
 
 export function ColorDropdownMenuItem({
   className,
@@ -43,15 +43,15 @@ export function ColorDropdownMenuItem({
         className
       )}
       onSelect={(e) => {
-        e.preventDefault();
-        updateColor(value);
+        e.preventDefault()
+        updateColor(value)
       }}
       style={{ backgroundColor: value }}
       {...props}
     >
       {isSelected ? <Icons.check /> : null}
     </DropdownMenuItem>
-  );
+  )
 
   return name ? (
     <Tooltip>
@@ -60,14 +60,14 @@ export function ColorDropdownMenuItem({
     </Tooltip>
   ) : (
     content
-  );
+  )
 }
 
 type ColorDropdownMenuItemsProps = {
-  color?: string;
-  colors: TColor[];
-  updateColor: (color: string) => void;
-} & React.HTMLAttributes<HTMLDivElement>;
+  color?: string
+  colors: TColor[]
+  updateColor: (color: string) => void
+} & React.HTMLAttributes<HTMLDivElement>
 
 export function ColorDropdownMenuItems({
   className,
@@ -92,5 +92,5 @@ export function ColorDropdownMenuItems({
         />
       ))}
     </div>
-  );
+  )
 }

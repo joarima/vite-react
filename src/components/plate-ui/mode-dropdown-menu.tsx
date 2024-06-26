@@ -1,4 +1,3 @@
-
 import type { DropdownMenuProps } from '@radix-ui/react-dropdown-menu'
 
 import {
@@ -8,7 +7,7 @@ import {
   usePlateStore,
 } from '@udecode/plate-common'
 
-import { Icons } from '@/components/icons'
+import { Icons } from '@/components/plate-ui/icons'
 
 import {
   DropdownMenu,

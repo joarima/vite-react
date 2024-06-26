@@ -1,14 +1,13 @@
+import type { UseEmojiPickerType } from '@udecode/plate-emoji'
 
-import type { UseEmojiPickerType } from '@udecode/plate-emoji';
+import { cn } from '@udecode/cn'
 
-import { cn } from '@udecode/cn';
-
-import { Icons } from '@/components/icons';
+import { Icons } from '@/components/plate-ui/icons'
 
 export type EmojiPickerSearchAndClearProps = Pick<
   UseEmojiPickerType,
   'clearSearch' | 'i18n' | 'searchValue'
->;
+>
 
 export function EmojiPickerSearchAndClear({
   clearSearch,
@@ -38,5 +37,5 @@ export function EmojiPickerSearchAndClear({
         </button>
       )}
     </>
-  );
+  )
 }
