@@ -1,20 +1,19 @@
+import { searchAtom } from '@/atoms/SearchAtom'
 import { useAuth } from '@/components/SupabaseAuthProvider'
 import { useTheme } from '@/components/ThemeProvider'
 import { Button } from '@/components/ui/button'
 import { supabase } from '@/lib/supabase'
+import { useSetAtom } from 'jotai'
 import { Link } from 'react-router-dom'
 import { ModeToggle } from './ModeToggle'
 import { Search } from './Search'
 import { SignInDialog } from './SignInDialog'
 
-type Props = {
-  setSearchWord: React.Dispatch<React.SetStateAction<string | undefined>>
-}
-
 // https://v0.dev/t/xYHqD5MkVkT
-export function Header({ setSearchWord }: Props) {
+export function Header() {
   const { user } = useAuth()
   const { theme } = useTheme()
+  const setSearchWord = useSetAtom(searchAtom)
 
   const onLogout = async () => {
     // sign out request
@@ -81,7 +80,7 @@ export function Header({ setSearchWord }: Props) {
             </Link>
           </nav>
           <div className="flex items-center gap-4 mr-[5px] sm:mr-8">
-            <Search setSearchWord={setSearchWord} />
+            <Search />
             <ModeToggle />
             {user ? (
               <Button

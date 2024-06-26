@@ -2,20 +2,18 @@ import { PostEditor } from '@/components/Post/PostEdtor'
 
 import { scrollTop } from '@/lib/scrollTop'
 
+import { searchAtom } from '@/atoms/SearchAtom'
 import { useAuth } from '@/components/SupabaseAuthProvider'
 import { useToast } from '@/components/ui/use-toast'
 import { fetchPostAdmin, fetchPostList, search } from '@/lib/posts'
 import { PostFetchResult, PostListData, PostRecord } from '@/types/Editor'
 import { PlateController, Value } from '@udecode/plate-common'
+import { useAtomValue } from 'jotai'
 import { useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Pagination } from './Pagination'
 
-type Props = {
-  searchWord?: string
-}
-
-export function Post({ searchWord }: Props) {
+export function Post() {
   const navigate = useNavigate()
   const { user } = useAuth()
   const isAdmin = !!user
@@ -23,6 +21,8 @@ export function Post({ searchWord }: Props) {
   const { id } = useParams<{ id: string }>()
   const [record, setRecord] = useState<PostRecord | undefined>(undefined)
   const [posts, setPosts] = useState<PostListData[]>([])
+
+  const searchWord = useAtomValue(searchAtom)
 
   const fetchList = async () => {
     try {

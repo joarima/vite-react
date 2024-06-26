@@ -1,3 +1,4 @@
+import { searchAtom } from '@/atoms/SearchAtom'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -7,16 +8,15 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
+import { useSetAtom } from 'jotai'
 import { Search as SearchIcon } from 'lucide-react'
 import { useState } from 'react'
 
-type Props = {
-  setSearchWord: React.Dispatch<React.SetStateAction<string | undefined>>
-}
-
-export function Search({ setSearchWord }: Props) {
+export function Search() {
   const [dialogOpen, setDialogOpen] = useState<boolean>(false)
   const [word, setWord] = useState<string | undefined>(undefined)
+
+  const setSearchWord = useSetAtom(searchAtom)
 
   const onSearch = () => {
     setSearchWord(word)
