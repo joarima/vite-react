@@ -2,7 +2,7 @@ import { ThemeProvider } from '@/components/ThemeProvider'
 import { Toaster } from '@/components/ui/toaster'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import Router from './components/Router.tsx'
+import Router from './components/Router/Router.tsx'
 import AuthProvider from './components/SupabaseAuthProvider.tsx'
 import './index.css'
 

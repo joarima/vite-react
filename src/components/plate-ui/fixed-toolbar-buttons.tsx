@@ -7,7 +7,7 @@ import {
 } from '@udecode/plate-basic-marks'
 import { useEditorReadOnly } from '@udecode/plate-common'
 
-import { Icons, iconVariants } from '@/components/icons'
+import { Icons, iconVariants } from '@/components/plate-ui/icons'
 
 import { MARK_BG_COLOR, MARK_COLOR } from '@udecode/plate-font'
 import { ListStyleType } from '@udecode/plate-indent-list'

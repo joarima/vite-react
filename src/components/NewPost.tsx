@@ -1,4 +1,4 @@
-import { PostEditor } from '@/components/PostEdtor'
+import { PostEditor } from '@/components/Post/PostEdtor'
 import { PlateController } from '@udecode/plate-common'
 
 function NewPost() {

@@ -2,11 +2,11 @@ import { About } from '@/components/About'
 import { Post } from '@/components/Post'
 import { useState } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
-import { Contact } from './Contact'
+import { Contact } from '../Contact'
+import NewPost from '../NewPost'
+import { useAuth } from '../SupabaseAuthProvider'
 import { Footer } from './Footer'
 import { Header } from './Header'
-import NewPost from './NewPost'
-import { useAuth } from './SupabaseAuthProvider'
 
 const Router = () => {
   const { user } = useAuth()

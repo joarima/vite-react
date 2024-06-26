@@ -15,15 +15,15 @@ import { format } from '@/lib/date'
 import { PostRecord } from '@/types/Editor'
 import { LoaderCircle } from 'lucide-react'
 import { useMemo, useRef, useState } from 'react'
-import { useAuth } from './SupabaseAuthProvider'
-import { Checkbox, CheckedState } from './ui/checkbox'
-import { Skeleton } from './ui/skeleton'
+import { useAuth } from '../SupabaseAuthProvider'
+import { Checkbox, CheckedState } from '../ui/checkbox'
+import { Skeleton } from '../ui/skeleton'
 
 import { deleteDraft, getDraft, saveDraft } from '@/lib/editor'
 import { plugins } from '@/lib/plate/plugins'
 import { savePost, updatePost } from '@/lib/posts'
 import { useNavigate } from 'react-router-dom'
-import { useToast } from './ui/use-toast'
+import { useToast } from '../ui/use-toast'
 
 type EditorProps = {
   record?: PostRecord

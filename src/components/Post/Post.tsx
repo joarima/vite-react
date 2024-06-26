@@ -1,15 +1,15 @@
-import { PostEditor } from '@/components/PostEdtor'
+import { PostEditor } from '@/components/Post/PostEdtor'
 
 import { scrollTop } from '@/lib/scrollTop'
 
+import { useAuth } from '@/components/SupabaseAuthProvider'
+import { useToast } from '@/components/ui/use-toast'
+import { fetchPostAdmin, fetchPostList, search } from '@/lib/posts'
+import { PostFetchResult, PostListData, PostRecord } from '@/types/Editor'
 import { PlateController, Value } from '@udecode/plate-common'
 import { useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { fetchPostAdmin, fetchPostList, search } from '../lib/posts'
-import { PostFetchResult, PostListData, PostRecord } from '../types/Editor'
 import { Pagination } from './Pagination'
-import { useAuth } from './SupabaseAuthProvider'
-import { useToast } from './ui/use-toast'
 
 type Props = {
   searchWord?: string
