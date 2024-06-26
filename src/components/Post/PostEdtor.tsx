@@ -1,5 +1,5 @@
 import { cn } from '@udecode/cn'
-import { Plate, Value } from '@udecode/plate-common'
+import { Plate } from '@udecode/plate-common'
 
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
@@ -14,16 +14,14 @@ import { Button } from '@/components/ui/button'
 import { format } from '@/lib/date'
 import { PostRecord } from '@/types/Editor'
 import { LoaderCircle } from 'lucide-react'
-import { useMemo, useRef, useState } from 'react'
+import { useRef } from 'react'
 import { useAuth } from '../SupabaseAuthProvider'
-import { Checkbox, CheckedState } from '../ui/checkbox'
+import { Checkbox } from '../ui/checkbox'
 import { Skeleton } from '../ui/skeleton'
 
-import { deleteDraft, getDraft, saveDraft } from '@/lib/editor'
+import { saveDraft } from '@/lib/editor'
 import { plugins } from '@/lib/plate/plugins'
-import { savePost, updatePost } from '@/lib/posts'
-import { useNavigate } from 'react-router-dom'
-import { useToast } from '../ui/use-toast'
+import { usePostEditor } from './PostEditor.hooks'
 
 type EditorProps = {
   record?: PostRecord
@@ -31,61 +29,15 @@ type EditorProps = {
 }
 
 export function PostEditor({ record, isNewPost = false }: EditorProps) {
-  const navigate = useNavigate()
-  const { toast } = useToast()
+  const { initialValue, setEditorState, open, toggleOpen, isPosting, onSave } =
+    usePostEditor(record, isNewPost)
+
   const containerRef = useRef(null)
   const id = 'pEditor'
   const { user } = useAuth()
   const isAdmin = !!user
 
-  const [isPosting, setIsPosting] = useState<boolean>(false)
-
   const postId = record?.id
-  const initialValue = isNewPost ? getDraft() : record?.content
-
-  const [editorState, setEditorState] = useState<Value | undefined>(
-    initialValue
-  )
-  const [open, setOpen] = useState<boolean>(record?.isOpen ?? false)
-
-  const toggleOpen = (checkState: CheckedState) => {
-    const checked = checkState !== false && checkState != 'indeterminate'
-    setOpen(checked)
-  }
-
-  useMemo(() => {
-    setEditorState(record?.content)
-    setOpen(record?.isOpen ?? false)
-  }, [record?.content, record?.isOpen])
-
-  const onSave = () => {
-    setIsPosting(true)
-    const content = editorState as object
-    if (content === undefined) {
-      alert('no content')
-      setIsPosting(false)
-      return
-    }
-
-    if (postId) {
-      updatePost(postId, content, open).then(() => {
-        toast({
-          title: 'post updated.',
-        })
-      })
-    } else {
-      savePost(content, open).then(() => {
-        toast({
-          title: 'new post created.',
-        })
-        if (isNewPost) {
-          deleteDraft()
-          navigate('/')
-        }
-      })
-    }
-    setIsPosting(false)
-  }
 
   return (
     <div>
