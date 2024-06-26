@@ -19,6 +19,7 @@ import { useAuth } from './SupabaseAuthProvider'
 import { Checkbox, CheckedState } from './ui/checkbox'
 import { Skeleton } from './ui/skeleton'
 
+import { deleteDraft, getDraft, saveDraft } from '@/lib/editor'
 import { plugins } from '@/lib/plate/plugins'
 import { savePost, updatePost } from '@/lib/posts'
 import { useNavigate } from 'react-router-dom'
@@ -40,7 +41,7 @@ export function PostEditor({ record, isNewPost = false }: EditorProps) {
   const [isPosting, setIsPosting] = useState<boolean>(false)
 
   const postId = record?.id
-  const initialValue = record?.content
+  const initialValue = isNewPost ? getDraft() : record?.content
 
   const [editorState, setEditorState] = useState<Value | undefined>(
     initialValue
@@ -78,6 +79,7 @@ export function PostEditor({ record, isNewPost = false }: EditorProps) {
           title: 'new post created.',
         })
         if (isNewPost) {
+          deleteDraft()
           navigate('/')
         }
       })
@@ -124,6 +126,9 @@ export function PostEditor({ record, isNewPost = false }: EditorProps) {
                 initialValue={initialValue}
                 onChange={(state) => {
                   setEditorState(state)
+                  if (isNewPost) {
+                    saveDraft(state)
+                  }
                 }}
               >
                 <div
