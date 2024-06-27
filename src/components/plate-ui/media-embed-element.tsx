@@ -10,6 +10,7 @@ import {
 } from '@udecode/plate-media'
 import { ResizableProvider, useResizableStore } from '@udecode/plate-resizable'
 
+import { useEffect, useState } from 'react'
 import { CaptionTextareaSimple } from '../patch/CaptionTextArea'
 import { Caption } from './caption'
 import { MediaPopover } from './media-popover'
@@ -36,6 +37,84 @@ const parseTwitterUrlCustom = (url?: string) => {
   }
 }
 
+const parseIframeUrl = (url?: string) => {
+  const urlRegex = new RegExp('^http(s?):\\/\\/.*\\..*')
+  if (!url || !url.startsWith('http')) return undefined
+  // if not starting with http, assume pasting of full iframe embed code
+  if (url.match(urlRegex)) {
+    return {
+      id: crypto.randomUUID(),
+      provider: 'commonurl',
+      url,
+    }
+  }
+}
+
+type OgpInfo = {
+  image?: string
+  site_name?: string
+  title?: string
+  type?: string
+  url?: string
+  description?: string
+}
+
+const Ogp = (url?: string) => {
+  const [ogpInfo, setOgpInfo] = useState<OgpInfo | undefined>(undefined)
+
+  const getOgpInfo = async (url?: string) => {
+    if (!url) return undefined
+    const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(url)}`
+    const response = await fetch(proxyUrl)
+    const html = await response.text()
+    const domParser = new DOMParser()
+    const dom = domParser.parseFromString(html, 'text/html')
+    const ogp = Object.fromEntries(
+      [...dom.head.children]
+        .filter(
+          (element) =>
+            element.tagName === 'META' &&
+            element.getAttribute('property')?.startsWith('og:')
+        )
+        .map((element) => {
+          return [
+            element.getAttribute('property')?.replace('og:', ''),
+            element.getAttribute('content'),
+          ]
+        })
+    ) as OgpInfo
+
+    setOgpInfo(ogp)
+  }
+
+  useEffect(() => {
+    getOgpInfo(url)
+  }, [])
+
+  if (!url) return <p>no url</p>
+
+  return (
+    <div className="p-3 border rounded-lg border-solid border-gray-200 hover:bg-blue-50">
+      <a
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex w-full divide-x-2 > *"
+      >
+        <div className="flex-1 p-2">
+          <p className="font-bold">{ogpInfo?.title ?? 'no title'}</p>
+          <p className="mt-4">{ogpInfo?.description}</p>
+        </div>
+        {ogpInfo?.image ? (
+          <img className="flex-1 max-w-[50%] p-2" src={ogpInfo?.image} />
+        ) : (
+          <p className="flex-1">no image</p>
+        )}
+      </a>
+    </div>
+  )
+}
+
 export const MediaEmbedElement = withHOC(
   ResizableProvider,
   withRef<typeof PlateElement>(({ children, className, ...props }, ref) => {
@@ -49,7 +128,7 @@ export const MediaEmbedElement = withHOC(
       readOnly,
       selected,
     } = useMediaState({
-      urlParsers: [parseTwitterUrlCustom, parseVideoUrl],
+      urlParsers: [parseTwitterUrlCustom, parseVideoUrl, parseIframeUrl],
     })
     const width = useResizableStore().get.width()
     const provider = embed?.provider
@@ -131,6 +210,20 @@ export const MediaEmbedElement = withHOC(
                   )}
                 >
                   <Tweet id={embed!.id!} />
+                </div>
+              )}
+
+              {!isVideo && !isTweet && (
+                <div className="">
+                  {/* <iframe
+                    className={cn(
+                      'absolute left-0 top-0 size-full rounded-sm',
+                      focused && selected && 'ring-2 ring-ring ring-offset-2'
+                    )}
+                    src={embed!.url}
+                    title="embed"
+                  /> */}
+                  {Ogp(embed!.url)}
                 </div>
               )}
 

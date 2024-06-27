@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 
 type Theme = 'dark' | 'light' | 'system'
 const storageKey = 'vite-ui-theme'
-const defaultTheme = 'light'
+const defaultTheme = 'system'
 const themeAtom = atom<Theme>(
   (localStorage.getItem(storageKey) as Theme) || defaultTheme
 )
